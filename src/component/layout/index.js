@@ -1,12 +1,9 @@
-import { Breadcrumb, Button, Layout, Menu, theme } from 'antd';
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Button, Layout, theme } from 'antd';
+import { Outlet, Link } from "react-router-dom";
 
 
 const { Header, Content, Footer } = Layout;
-const items = new Array(3).fill(null).map((_, index) => ({
-    key: String(index + 1),
-    label: `nav ${index + 1}`,
-}));
+
 const App = () => {
     const {
         token: { colorBgContainer, borderRadiusLG },

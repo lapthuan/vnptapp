@@ -6,8 +6,8 @@ import {
 import { GrSystem } from "react-icons/gr";
 import { CiCreditCard2 } from "react-icons/ci";
 import { MdDevicesOther, MdSettingsInputAntenna } from "react-icons/md";
-import { FaBook, FaUsb, FaTv } from 'react-icons/fa';
-import { AiFillInfoCircle, AiOutlineWifi, AiOutlineApartment } from 'react-icons/ai'
+import {FaUsb, FaTv } from 'react-icons/fa';
+import {  AiOutlineWifi, AiOutlineApartment } from 'react-icons/ai'
 import { BsModem } from "react-icons/bs";
 import { GiBookshelf } from "react-icons/gi";
 import { Layout, Menu, Button, theme } from 'antd';

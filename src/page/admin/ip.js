@@ -1,16 +1,31 @@
+import { Button, Card, Divider, Form, Input, Space, Table } from 'antd';
 
 
-
-import { Card, Divider, Form, Select, Table } from 'antd';
 const columns = [
+    {
+        title: 'ID',
+        dataIndex: 'id'
+    },
     {
         title: 'Name',
         dataIndex: 'name',
     },
-
+    {
+        title: "Công cụ",
+        key: "action",
+        render: (id) => (
+            <Space size="middle">
+                <Button type="primary" style={{ backgroundColor: 'green', borderColor: 'green' }}>
+                    Sửa
+                </Button>
+                <Button type="primary" danger>Xóa</Button>
+            </Space >
+        )
+    }
 ];
 const data = [
     {
+        id: '123',
         key: '1',
         name: 'John Brown',
         chinese: 98,
@@ -18,6 +33,7 @@ const data = [
         english: 70,
     },
     {
+        id: '123',
         key: '2',
         name: 'Jim Green',
         chinese: 98,
@@ -25,6 +41,7 @@ const data = [
         english: 89,
     },
     {
+        id: '123',
         key: '3',
         name: 'Joe Black',
         chinese: 98,
@@ -32,6 +49,7 @@ const data = [
         english: 70,
     },
     {
+        id: '123',
         key: '4',
         name: 'Jim Red',
         chinese: 88,
@@ -39,7 +57,6 @@ const data = [
         english: 89,
     },
 ];
-
 const Ip = () => {
     return (<>
         <Divider orientation="left">Ip</Divider>
@@ -58,16 +75,11 @@ const Ip = () => {
 
                     >
 
-                        <Form.Item label="Thiết bị" className='select-item'>
-                            <Select style={{ width: "100%" }}>
-                                <Select.Option value="demo">Demoaaaaaaaaaaaaaa  </Select.Option>
-                            </Select>
+                        <Form.Item label="Card" className='select-item'>
+                            <Input />
                         </Form.Item>
-                        <Form.Item label="SystemID" className='select-item'>
-                            <Select style={{ width: "100%" }}>
-                                <Select.Option value="demo">Demo</Select.Option>
-                            </Select>
-                        </Form.Item>
+
+                        <Button type='primary' >Thêm</Button>
                     </Form>
                 </Card>
             </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, Col, Form, Radio, Row } from 'antd';
+import { Button, Card, Form, Radio } from 'antd';
 import { Select, Space } from 'antd';
 import Terminal, { ColorMode, TerminalOutput } from 'react-terminal-ui';
 
@@ -96,7 +96,7 @@ const Home = () => {
                         {lineData}
                     </Terminal>
 
-                    {/* <Button onClick={handleClick}>Bấm vào em nè</Button> */}
+                    <Button onClick={handleClick} hidden>Bấm vào em nè</Button>
 
                 </div>
 

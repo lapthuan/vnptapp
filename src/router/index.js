@@ -1,25 +1,37 @@
 import { Spin } from 'antd';
 import React, { Suspense, lazy } from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from '../component/layout/index'
 import Admin from '../component/layout/admin'
-import ThietBi from '../page/admin/thietbi';
-import Home from '../page/home';
-import SystemID from '../page/admin/systemid';
-import Ip from '../page/admin/ip';
-import Shelf from '../page/admin/shelf';
-import Port from '../page/admin/port';
-import VlanNet from '../page/admin/vlannet';
-import VlanMyTV from '../page/admin/vlanmytv';
-import Onu from '../page/admin/onu';
-import VlanIms from '../page/admin/vlanims';
-import Cards from '../page/admin/card';
+
+const ThietBi = lazy(() => import('../page/admin/thietbi'));
+const Home = lazy(() => import('../page/home'));
+const SystemID = lazy(() => import('../page/admin/systemid'));
+const Ip = lazy(() => import('../page/admin/ip'));
+const Shelf = lazy(() => import('../page/admin/shelf'));
+const Port = lazy(() => import('../page/admin/port'));
+const VlanNet = lazy(() => import('../page/admin/vlannet'));
+const VlanMyTV = lazy(() => import('../page/admin/vlanmytv'));
+const Onu = lazy(() => import('../page/admin/onu'));
+const VlanIms = lazy(() => import('../page/admin/vlanims'));
+const Cards = lazy(() => import('../page/admin/card'));
 
 const App = () => (
     <Router>
-        <Suspense fallback={<Spin tip="Đang tải..." size="large">
-            <div className="content" />
-        </Spin>}>
+        <Suspense fallback={<Spin
+            fullscreen={'true'}
+            style={{ backgroundColor: 'white' }}
+            indicator={
+                <LoadingOutlined
+                    style={{
+                        fontSize: 24,
+
+                    }}
+                    spin
+                />
+            }
+        />}>
             <Routes>
 
                 <Route path="/" element={<Layout />}>
