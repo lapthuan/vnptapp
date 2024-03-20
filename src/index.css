@@ -11,3 +11,74 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.react-terminal-line{
+  color: green;
+}
+.body-home{
+  justify-content: center;
+  display: flex;
+  padding-bottom: 10px;
+}
+.body-ts{
+  float: left;
+  width: 33%;
+}
+
+.body-terminal{
+  float: left;
+  width: 66%;
+}
+
+.layout-card{
+  min-height: 90vh;
+}
+
+.select-item{
+  margin-bottom: 10px;
+}
+.admin-body{
+  display: flex;
+  justify-content: center;
+}
+.admin-card-1-3{
+  width: 40%;
+  padding: 20px;
+}
+.admin-card-2-3{
+  width: 50%;
+  padding: 20px;
+}
+@media screen and (max-width: 992px) {
+  .body-ts{
+    float: left;
+    width: 100%;
+  }
+  
+  .body-terminal{
+    float: left;
+    width: 100%;
+  }
+  .layout-card{
+    min-height: 200vh;
+  }
+  .body-home{
+    justify-content: center;
+    display: block;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .body-ts{
+    float: left;
+    width: 100%;
+  }
+  
+  .body-terminal{
+    float: left;
+    width: 100%;
+  }
+  .layout-card{
+    min-height: 200vh;
+  }
+}
