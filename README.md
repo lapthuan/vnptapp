@@ -1,19 +1,19 @@
-# HƯỚNG DẪN SỬ DỤNG - Ứng dụng React điều khiển Bras
+# HƯỚNG DẪN SỬ DỤNG - Ứng dụng React điều khiển Thiết bị
 
 ## Giới thiệu
 
-Chào mừng bạn đến với dự án Ứng dụng React điều khiển Bras! Dự án này nhằm mục đích cung cấp một ứng dụng web thân thiện với người dùng được xây dựng bằng React.js để điều khiển áo ngực từ xa. Cho dù bạn quan tâm đến tự động hóa, tiện ích, hoặc chỉ đơn giản là để vui chơi, ứng dụng này cho phép bạn điều khiển các chức năng khác nhau của áo ngực thông qua một giao diện đơn giản và trực quan.
+Chào mừng bạn đến với dự án Ứng dụng React điều khiển Thiết bị! Dự án này nhằm mục đích cung cấp một ứng dụng web thân thiện với người dùng được xây dựng bằng React.js để điều khiển thiết bị từ xa. Cho dù bạn quan tâm đến tự động hóa, tiện ích, hoặc chỉ đơn giản là để vui chơi, ứng dụng này cho phép bạn điều khiển các chức năng khác nhau của thiết bị thông qua một giao diện đơn giản và trực quan.
 
 ## Tính năng
 
-- **Điều khiển từ xa**: Kiểm soát các chức năng khác nhau của áo ngực từ xa.
+- **Điều khiển từ xa**: Kiểm soát các chức năng khác nhau của thiết bị từ xa.
 - **Giao diện thân thiện với người dùng**: Giao diện người dùng trực quan được thiết kế để dễ dàng điều hướng và sử dụng.
 - **Tùy chỉnh**: Tùy chỉnh cài đặt theo sở thích cá nhân.
 - **Thiết kế đáp ứng**: Hoạt động mượt mà trên các thiết bị và kích thước màn hình khác nhau.
 
 ## Bắt đầu
 
-Để bắt đầu sử dụng Ứng dụng React điều khiển Bras một cách cục bộ, làm theo các bước sau:
+Để bắt đầu sử dụng Ứng dụng React điều khiển Thiết bị một cách cục bộ, làm theo các bước sau:
 
 1. **Clone repository**:
 
@@ -43,17 +43,17 @@ Chào mừng bạn đến với dự án Ứng dụng React điều khiển Bras
 
 ## Sử dụng
 
-Khi ứng dụng đã chạy, bạn có thể bắt đầu điều khiển áo ngực của mình bằng cách làm theo các bước sau:
+Khi ứng dụng đã chạy, bạn có thể bắt đầu điều khiển thiết bị của mình bằng cách làm theo các bước sau:
 
 1. **Khởi động ứng dụng**: Mở ứng dụng trong trình duyệt của bạn.
-2. **Kết nối với Áo Ngực**: Đảm bảo rằng áo ngực của bạn đã được kết nối đúng cách với ứng dụng.
+2. **Kết nối với Thiết bị**: Đảm bảo rằng thiết bị của bạn đã được kết nối đúng cách với ứng dụng.
 3. **Điều khiển**: Sử dụng giao diện trực quan để điều hướng qua các tùy chọn điều khiển khác nhau.
-4. **Tùy chỉnh cài đặt**: Tùy chỉnh các cài đặt như căng dây, kiểm soát nhiệt độ và nhiều hơn nữa.
-5. **Tận hưởng**: Nghỉ ngơi và tận hưởng sự thoải mái và tiện lợi từ việc điều khiển áo ngực từ xa!
+4. **Tùy chỉnh cài đặt**: Tùy chỉnh các cài đặt như nhiệt độ, độ sáng, và nhiều hơn nữa.
+5. **Tận hưởng**: Tận hưởng sự thuận tiện và tiện lợi từ việc điều khiển thiết bị từ xa!
 
 ## Đóng góp
 
-Mọi đóng góp cho dự án Ứng dụng React điều khiển Bras đều được hoan nghênh và khuyến khích. Nếu bạn muốn đóng góp, vui lòng làm theo các bước sau:
+Mọi đóng góp cho dự án Ứng dụng React điều khiển Thiết bị đều được hoan nghênh và khuyến khích. Nếu bạn muốn đóng góp, vui lòng làm theo các bước sau:
 
 1. Fork repository.
 2. Tạo một nhánh chức năng của bạn (`git checkout -b feature/your-feature-name`).
@@ -75,4 +75,4 @@ Dự án này được cấp phép theo [Giấy phép MIT](LICENSE).
 
 ---
 
-Hãy liên hệ nếu bạn có bất kỳ câu hỏi, đề xuất hoặc phản hồi nào về Ứng dụng React điều khiển Bras. Chúc bạn điều khiển vui vẻ! 🎉
+Hãy liên hệ nếu bạn có bất kỳ câu hỏi, đề xuất hoặc phản hồi nào về Ứng dụng React điều khiển Thiết bị. Chúc bạn điều khiển vui vẻ! 🎉
