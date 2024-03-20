@@ -42,7 +42,7 @@ const data = [
 
 const Port = () => {
     return (<>
-        <Divider orientation="left">Card</Divider>
+        <Divider orientation="left">Port</Divider>
         <div className='admin-body'>
 
             <div className='admin-card-1-3'>

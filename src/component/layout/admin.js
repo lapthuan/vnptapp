@@ -4,12 +4,15 @@ import {
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
 import { GrSystem } from "react-icons/gr";
+import { CiCreditCard2 } from "react-icons/ci";
 import { MdDevicesOther, MdSettingsInputAntenna } from "react-icons/md";
 import { FaBook, FaUsb, FaTv } from 'react-icons/fa';
 import { AiFillInfoCircle, AiOutlineWifi, AiOutlineApartment } from 'react-icons/ai'
 import { BsModem } from "react-icons/bs";
+import { GiBookshelf } from "react-icons/gi";
 import { Layout, Menu, Button, theme } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
+import { Footer } from 'antd/es/layout/layout';
 const { Header, Sider, Content } = Layout;
 const App = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -37,10 +40,10 @@ const App = () => {
                         <Menu.Item key="3" icon={<MdSettingsInputAntenna />}>
                             <Link to="../admin/ip">Ip</Link>
                         </Menu.Item>
-                        <Menu.Item key="4" icon={<FaBook />}>
+                        <Menu.Item key="4" icon={<GiBookshelf />}>
                             <Link to="../admin/shelf">Shelf</Link>
                         </Menu.Item>
-                        <Menu.Item key="5" icon={<AiFillInfoCircle />}>
+                        <Menu.Item key="5" icon={<CiCreditCard2 />}>
                             <Link to="../admin/card">Card</Link>
                         </Menu.Item>
                         <Menu.Item key="6" icon={<FaUsb />}>
@@ -77,6 +80,8 @@ const App = () => {
                                 height: 64,
                             }}
                         />
+                        <Button type='primary'><Link to={'/'}>Control</Link></Button>
+
                     </Header>
                     <Content
                         style={{
@@ -89,6 +94,9 @@ const App = () => {
                     >
                         <Outlet />
                     </Content>
+                    <Footer style={{ textAlign: 'center' }}>
+                        Design ©{new Date().getFullYear()}
+                    </Footer>
                 </Layout>
             </Layout>
         </>

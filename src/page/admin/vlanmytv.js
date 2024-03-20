@@ -42,7 +42,7 @@ const data = [
 
 const VlanMyTV = () => {
     return (<>
-        <Divider orientation="left">Thiết bị</Divider>
+        <Divider orientation="left">Vlan MyTV</Divider>
         <div className='admin-body'>
 
             <div className='admin-card-1-3'>

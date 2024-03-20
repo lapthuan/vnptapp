@@ -42,7 +42,7 @@ const data = [
 
 const VlanIms = () => {
     return (<>
-        <Divider orientation="left">Card</Divider>
+        <Divider orientation="left">Vlan Ims</Divider>
         <div className='admin-body'>
 
             <div className='admin-card-1-3'>

@@ -42,7 +42,7 @@ const data = [
 
 const VlanNet = () => {
     return (<>
-        <Divider orientation="left">Thiết bị</Divider>
+        <Divider orientation="left">Vlan Net</Divider>
         <div className='admin-body'>
 
             <div className='admin-card-1-3'>

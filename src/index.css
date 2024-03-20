@@ -49,6 +49,18 @@ code {
   width: 50%;
   padding: 20px;
 }
+.logo{
+  width: 100px;
+  background-color: rgb(72, 71, 90);
+  height: 80%;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+  font-family: monospace;
+  align-items: center;
+  font-weight: bold;
+}
 @media screen and (max-width: 992px) {
   .body-ts{
     float: left;

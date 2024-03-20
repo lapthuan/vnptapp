@@ -1,4 +1,4 @@
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Button, Layout, Menu, theme } from 'antd';
 import { Outlet, Link, useNavigate } from "react-router-dom";
 
 
@@ -13,7 +13,18 @@ const App = () => {
     } = theme.useToken();
     return (
         <Layout>
+            <Header
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: "#252a33",
+                    justifyContent: 'space-between'
+                }}
 
+            >
+                <div className="logo" >App Vnpt</div>
+                <Button type='primary' ><Link to={'/admin'}>Admin</Link></Button>
+            </Header>
             <Content style={{ padding: '10px' }}>
 
                 <div
