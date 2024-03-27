@@ -6,8 +6,8 @@ import {
 import { GrSystem } from "react-icons/gr";
 import { CiCreditCard2 } from "react-icons/ci";
 import { MdDevicesOther, MdSettingsInputAntenna } from "react-icons/md";
-import {FaUsb, FaTv } from 'react-icons/fa';
-import {  AiOutlineWifi, AiOutlineApartment } from 'react-icons/ai'
+import { FaUsb, FaTv } from 'react-icons/fa';
+import { AiOutlineWifi, AiOutlineApartment } from 'react-icons/ai'
 import { BsModem } from "react-icons/bs";
 import { GiBookshelf } from "react-icons/gi";
 import { Layout, Menu, Button, theme } from 'antd';
@@ -19,11 +19,14 @@ const App = () => {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+
+
+
     return (
         <>
 
 
-            <Layout style={{ height: "100vh" }} >
+            <Layout style={{ height: "120vh" }} >
                 <Sider trigger={null} collapsible collapsed={collapsed}>
                     <div className="demo-logo-vertical" />
                     <Menu
@@ -40,24 +43,14 @@ const App = () => {
                         <Menu.Item key="3" icon={<MdSettingsInputAntenna />}>
                             <Link to="../admin/ip">Ip</Link>
                         </Menu.Item>
-                        <Menu.Item key="4" icon={<GiBookshelf />}>
-                            <Link to="../admin/shelf">Shelf</Link>
-                        </Menu.Item>
-                        <Menu.Item key="5" icon={<CiCreditCard2 />}>
-                            <Link to="../admin/card">Card</Link>
-                        </Menu.Item>
-                        <Menu.Item key="6" icon={<FaUsb />}>
-                            <Link to="../admin/port">Port</Link>
-                        </Menu.Item>
+                      
                         <Menu.Item key="7" icon={<AiOutlineWifi />}>
                             <Link to="../admin/vlan-net">Vlan Net</Link>
                         </Menu.Item>
                         <Menu.Item key="8" icon={<FaTv />}>
                             <Link to="../admin/vlan-mytv">Vlan Mytv</Link>
                         </Menu.Item>
-                        <Menu.Item key="9" icon={<BsModem />}>
-                            <Link to="../admin/onu">Onu</Link>
-                        </Menu.Item>
+
                         <Menu.Item key="10" icon={<AiOutlineApartment />}>
                             <Link to="../admin/vlan-ims">Vlan IMS</Link>
                         </Menu.Item>
@@ -87,7 +80,7 @@ const App = () => {
                         style={{
                             margin: '24px 16px',
                             padding: 24,
-                            minHeight: 280,
+                            minHeight: 400,
                             background: colorBgContainer,
                             borderRadius: borderRadiusLG,
                         }}

@@ -74,7 +74,7 @@ const VlanMyTV = () => {
 
                     >
 
-                        <Form.Item label="Card" className='select-item'>
+                        <Form.Item label="Tên" className='select-item'>
                             <Input />
                         </Form.Item>
 

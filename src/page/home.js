@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Card, Form, Radio } from 'antd';
+import { Button, Card, Form, Input, Radio } from 'antd';
 import { Select, Space } from 'antd';
 import Terminal, { ColorMode, TerminalOutput } from 'react-terminal-ui';
 
@@ -34,55 +34,49 @@ const Home = () => {
                             className='form-card'
 
                         >
-
-                            <Form.Item label="Thiết bị" className='select-item'>
-                                <Select style={{ width: "100%" }}>
+                            <Form.Item label="Loại thiết bị" className='select-item'>
+                                <Select style={{ width: "100%" }} placeholder="Chọn loại thiết bị">
                                     <Select.Option value="demo">Demoaaaaaaaaaaaaaa  </Select.Option>
                                 </Select>
                             </Form.Item>
-                            <Form.Item label="SystemID" className='select-item'>
-                                <Select style={{ width: "100%" }}>
-                                    <Select.Option value="demo">Demo</Select.Option>
+                            <Form.Item label="Thiết bị" className='select-item'>
+                                <Select style={{ width: "100%" }} placeholder="Chọn thiết bị">
+                                    <Select.Option value="demo">Demoaaaaaaaaaaaaaa  </Select.Option>
                                 </Select>
                             </Form.Item>
+                        
                             <Form.Item label="Ip" className='select-item'>
-                                <Select style={{ width: "100%" }}>
-                                    <Select.Option value="demo">Demo</Select.Option>
-                                </Select>
-                            </Form.Item>
-                            <Form.Item label="Shelf" className='select-item'>
-                                <Select style={{ width: "100%" }}>
-                                    <Select.Option value="demo">Demo</Select.Option>
-                                </Select>
-                            </Form.Item>
-                            <Form.Item label="Card" className='select-item'>
-                                <Select style={{ width: "100%" }}>
+                                <Select style={{ width: "100%" }} placeholder="Chọn Ip">
                                     <Select.Option value="demo">Demo</Select.Option>
                                 </Select>
                             </Form.Item>
 
+                            <Form.Item label="Slot" className='select-item'>
+                                <Input placeholder='Nhập Slot' />
+                            </Form.Item>
+
                             <Form.Item label="Port" className='select-item'>
-                                <Select style={{ width: "100%" }}>
-                                    <Select.Option value="demo">Demo</Select.Option>
-                                </Select>
+                                <Input placeholder='Nhập Port' />
+                            </Form.Item>
+                            <Form.Item label="Onu ID" className='select-item'>
+                                <Input placeholder='Nhập Onu ID' />
                             </Form.Item>
                             <Form.Item label="Vlan Net" className='select-item'>
-                                <Select style={{ width: "100%" }}>
-                                    <Select.Option value="demo">Demo</Select.Option>
+                                <Select style={{ width: "100%" }} placeholder="Chọn Vlan Net">
+                                    <Select.Option value="d2emo">Vlan1</Select.Option>
+                                    <Select.Option value="d233emo">Vlan12</Select.Option>
+                                    <Select.Option value="d3emo">Vlan122</Select.Option>
+                                    <Select.Option value="dem333o">Vlan1222</Select.Option>
                                 </Select>
                             </Form.Item>
                             <Form.Item label="Vlan Mytv" className='select-item'>
-                                <Select style={{ width: "100%" }}>
+                                <Select style={{ width: "100%" }} placeholder="Chọn Vlan Mytv">
                                     <Select.Option value="demo">Demo</Select.Option>
                                 </Select>
                             </Form.Item>
-                            <Form.Item label="Onu" className='select-item'>
-                                <Select style={{ width: "100%" }}>
-                                    <Select.Option value="demo">Demo</Select.Option>
-                                </Select>
-                            </Form.Item>
+
                             <Form.Item label="Vlan IMS" className='select-item'>
-                                <Select >
+                                <Select placeholder="Chọn Vlan IMS">
                                     <Select.Option value="demo">aaaaaaaaaa</Select.Option>
                                 </Select>
                             </Form.Item>
