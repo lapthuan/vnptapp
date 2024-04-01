@@ -1,4 +1,4 @@
-import { Button, Card, Divider, Form, Input, Select, Space, Table } from 'antd';
+import { Button, Card, Divider, Form, Input, Select, Table } from 'antd';
 import SubmitDevice from '../../component/submit/submitDevice';
 
 
@@ -13,7 +13,6 @@ const Ip = () => {
         dataTable,
         editTab,
         setEditTab,
-        valueEdit,
         idEdit,
         loading,
         handleEdit,
@@ -32,7 +31,7 @@ const Ip = () => {
 
 
     return (<>
-        <Divider orientation="left">Ip</Divider>
+        <Divider orientation="left">Thiết bị</Divider>
         <div className='admin-body'>
 
             <div className='admin-card-1-3'>

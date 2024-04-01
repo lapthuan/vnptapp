@@ -19,9 +19,9 @@ const App = () => {
                 }}
 
             >
-                <div className="logo" >GPON TOOL</div>
+                <div className="logo" >BRAS TOOL</div>
                 <Space >
-                    <Button style={{ marginRight: "10px" }} ><Link to={'/bras'}>BRAS</Link></Button>
+                    <Button style={{ marginRight: "10px" }} ><Link to={'/gpon'}>GPON</Link></Button>
                     <Button type='primary' ><Link to={'/admin'}>Admin</Link></Button>
                 </Space>
 

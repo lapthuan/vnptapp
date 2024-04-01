@@ -9,25 +9,23 @@ const SubmitIP = () => {
     const [dataTable, setData] = useState([])
     const [editTab, setEditTab] = useState(false)
     const [idEdit, setIdEdit] = useState()
-    const [valueEdit, setValueEdit] = useState()
 
     const { data, loading } = useAsync(() => ServiceIp.getAllIp())
     const [form] = useForm();
 
-    let datatab = []
-    data.map((item, i) => {
-        datatab.push(
-            {
-                _id: item._id,
-                ipaddress: item.ipaddress,
-                key: item._id
-            }
-        )
-    })
 
     useEffect(() => {
-        setData(datatab)
-    }, [data])
+        if (data) {
+            const datatab = data.map((item, i) => {
+                return {
+                    _id: item._id,
+                    ipaddress: item.ipaddress,
+                    key: item._id
+                }
+            });
+            setData(datatab);
+        }
+    }, [data]);
     const ChangeEdit = async (_id, ipaddress) => {
 
 
@@ -44,17 +42,14 @@ const SubmitIP = () => {
             const res = await ServiceIp.editIp({ ipaddress: ipaddress }, idEdit)
             if (res.detail.msg === "success") {
                 message.success("Sửa thành công thành công")
-                let datatab = []
-                res.detail.data?.map((item, i) => {
-                    datatab.push(
-                        {
-                            _id: item._id,
-                            ipaddress: item.ipaddress,
-                            key: item._id
-                        }
-                    )
-                })
-                setData(datatab)
+                const datatab = data.map((item, i) => {
+                    return {
+                        _id: item._id,
+                        ipaddress: item.ipaddress,
+                        key: item._id
+                    }
+                });
+                setData(datatab);
             } else {
                 message.error("Địa chỉ ip không hợp lệ")
             }
@@ -67,17 +62,14 @@ const SubmitIP = () => {
         const res = await ServiceIp.deleteIp(_id)
         if (res.detail.msg === "success") {
             message.success("Xóa thành công")
-            let datatab = []
-            res.detail.data?.map((item, i) => {
-                datatab.push(
-                    {
-                        _id: item._id,
-                        ipaddress: item.ipaddress,
-                        key: item._id
-                    }
-                )
-            })
-            setData(datatab)
+            const datatab = data.map((item, i) => {
+                return {
+                    _id: item._id,
+                    ipaddress: item.ipaddress,
+                    key: item._id
+                }
+            });
+            setData(datatab);
         } else {
             message.error("Lỗi")
         }
@@ -89,17 +81,14 @@ const SubmitIP = () => {
 
             if (res.detail.msg === "success") {
                 message.success("Thêm thành công")
-                let datatab = []
-                res.detail.data?.map((item, i) => {
-                    datatab.push(
-                        {
-                            _id: item._id,
-                            ipaddress: item.ipaddress,
-                            key: item._id
-                        }
-                    )
-                })
-                setData(datatab)
+                const datatab = data.map((item, i) => {
+                    return {
+                        _id: item._id,
+                        ipaddress: item.ipaddress,
+                        key: item._id
+                    }
+                });
+                setData(datatab);
             } else {
                 message.error("Địa chỉ ip không hợp lệ")
             }
@@ -156,7 +145,6 @@ const SubmitIP = () => {
         dataTable,
         editTab,
         setEditTab,
-        valueEdit,
         idEdit,
         loading,
         handleEdit,

@@ -3,13 +3,10 @@ import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import { GrSystem } from "react-icons/gr";
-import { CiCreditCard2 } from "react-icons/ci";
+
 import { MdDevicesOther, MdSettingsInputAntenna } from "react-icons/md";
-import { FaUsb, FaTv } from 'react-icons/fa';
+import { FaTv } from 'react-icons/fa';
 import { AiOutlineWifi, AiOutlineApartment } from 'react-icons/ai'
-import { BsModem } from "react-icons/bs";
-import { GiBookshelf } from "react-icons/gi";
 import { Layout, Menu, Button, theme } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 import { Footer } from 'antd/es/layout/layout';
@@ -28,7 +25,7 @@ const App = () => {
 
             <Layout style={{ height: "120vh" }} >
                 <Sider trigger={null} collapsible collapsed={collapsed}>
-                    <div className="demo-logo-vertical" />
+                    <div className="logo-admin"  > Admin </div>
                     <Menu
                         theme="dark"
                         mode="inline"
@@ -70,7 +67,10 @@ const App = () => {
                                 height: 64,
                             }}
                         />
-                        <Button type='primary'><Link to={'/'}>Control</Link></Button>
+                        <Button type='primary' style={{
+                            marginRight: "10px"
+                        }}><Link to={'/gpon'}>GPON</Link></Button>
+                        <Button type=''><Link to={'/'}>BRAS</Link></Button>
 
                     </Header>
                     <Content

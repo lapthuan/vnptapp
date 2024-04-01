@@ -10,7 +10,6 @@ const Ip = () => {
         dataTable,
         editTab,
         setEditTab,
-        valueEdit,
         idEdit,
         loading,
         handleEdit,
@@ -55,7 +54,7 @@ const Ip = () => {
                         className='form-card'
                     >
                         <Form.Item label="IP :" tooltip="Nhập đúng định dạng IPv4" name="ipaddress" rules={[{ required: true, message: 'Vui lòng nhập Ip!' }]} className='select-item'>
-                            <Input placeholder={valueEdit} />
+                            <Input/>
                         </Form.Item>
                         <Space size="middle">
                             <Button type='primary' onClick={handleEdit}>Sửa</Button>

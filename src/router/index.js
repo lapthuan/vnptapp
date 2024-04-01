@@ -4,8 +4,11 @@ import { LoadingOutlined } from '@ant-design/icons';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from '../component/layout/index'
 import Admin from '../component/layout/admin'
-
+import BrasLayout from '../component/layout/bras'
 import ThietBi from '../page/admin/device'
+
+
+const Bras = lazy(() => import('../page/bras'));
 const Home = lazy(() => import('../page/home'));
 const Ip = lazy(() => import('../page/admin/ip'));
 const VlanNet = lazy(() => import('../page/admin/vlannet'));
@@ -28,9 +31,14 @@ const App = () => (
             }
         />}>
             <Routes>
-
                 <Route path="/" element={<Layout />}>
                     <Route index element={<Home />} />
+                </Route>
+                <Route path="/gpon" element={<Layout />}>
+                    <Route index element={<Home />} />
+                </Route>
+                <Route path="/bras" element={<BrasLayout />}>
+                    <Route index element={<Bras />} />
                 </Route>
                 <Route path="/admin" element={<Admin />}>
                     <Route index element={<ThietBi />} />

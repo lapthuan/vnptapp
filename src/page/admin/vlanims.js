@@ -1,4 +1,4 @@
-import { Button, Card, Divider, Form, Input, InputNumber, Space, Table } from 'antd';
+import { Button, Card, Divider, Form, InputNumber, Space, Table } from 'antd';
 import SubmitVlanIMS from '../../component/submit/submitVlanIMS';
 
 
@@ -9,7 +9,6 @@ const VlanIMS = () => {
         dataTable,
         editTab,
         setEditTab,
-        valueEdit,
         idEdit,
         loading,
         handleEdit,
@@ -53,7 +52,7 @@ const VlanIMS = () => {
                         className='form-card'
                     >
                         <Form.Item label="Vlan IMS :" name="number" rules={[{ required: true, message: 'Vui lòng nhập Vlan IMS!' }]} className='select-item'>
-                            <InputNumber type='number' placeholder={valueEdit} />
+                            <InputNumber type='number'  />
                         </Form.Item>
                         <Space size="middle">
                             <Button type='primary' onClick={handleEdit}>Sửa</Button>

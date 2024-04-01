@@ -13,7 +13,6 @@ const SubmitDevice = () => {
     const [dataTable, setData] = useState([])
     const [editTab, setEditTab] = useState(false)
     const [idEdit, setIdEdit] = useState()
-    const [valueEdit, setValueEdit] = useState()
     const [loadingButton, setLoadingButton] = useState(false);
     const { data, loading } = useAsync(() => ServiceDevice.getAlldevice())
     const [form] = useForm();
@@ -24,25 +23,23 @@ const SubmitDevice = () => {
 
 
     useEffect(() => {
-        let datatab = []
-        data.map((item, i) => {
-            datatab.push(
-                {
-                    _id: item._id,
-                    ipaddress: item.ipaddress.number,
-                    vlanims: item.vlanims.number,
-                    vlanmytv: item.vlanmytv.number,
-                    vlannet: item.vlannet.number,
-                    loaithietbi: item.loaithietbi,
-                    tenthietbi: item.tenthietbi,
-                    idip: item.ipaddress._id,
-                    idvlanims: item.vlanims._id,
-                    idvlanmytv: item.vlanmytv._id,
-                    idvlannet: item.vlannet._id,
-                    key: item._id
-                }
-            )
-        })
+        const datatab = data.map((item, i) => {
+            return {
+                _id: item._id,
+                ipaddress: item.ipaddress.number,
+                vlanims: item.vlanims.number,
+                vlanmytv: item.vlanmytv.number,
+                vlannet: item.vlannet.number,
+                loaithietbi: item.loaithietbi,
+                tenthietbi: item.tenthietbi,
+                idip: item.ipaddress._id,
+                idvlanims: item.vlanims._id,
+                idvlanmytv: item.vlanmytv._id,
+                idvlannet: item.vlannet._id,
+                key: item._id
+            }
+
+        });
         setData(datatab)
     }, [data])
     const ChangeEdit = async (rc) => {
@@ -65,26 +62,24 @@ const SubmitDevice = () => {
         message.loading("Đang xử lý")
         const res = await ServiceDevice.editDevice(values, idEdit)
         if (res.detail.msg === "success") {
-            message.success("Sửa thành công thành công")
-            let datatab = []
-            res.detail.data?.map((item, i) => {
-                datatab.push(
-                    {
-                        _id: item._id,
-                        ipaddress: item.ipaddress.number,
-                        vlanims: item.vlanims.number,
-                        vlanmytv: item.vlanmytv.number,
-                        vlannet: item.vlannet.number,
-                        loaithietbi: item.loaithietbi,
-                        tenthietbi: item.tenthietbi,
-                        idip: item.ipaddress._id,
-                        idvlanims: item.vlanims._id,
-                        idvlanmytv: item.vlanmytv._id,
-                        idvlannet: item.vlannet._id,
-                        key: item._id
-                    }
-                )
-            })
+            message.success("Sửa dữ liệu thành công")
+            const datatab = data.map((item, i) => {
+                return {
+                    _id: item._id,
+                    ipaddress: item.ipaddress.number,
+                    vlanims: item.vlanims.number,
+                    vlanmytv: item.vlanmytv.number,
+                    vlannet: item.vlannet.number,
+                    loaithietbi: item.loaithietbi,
+                    tenthietbi: item.tenthietbi,
+                    idip: item.ipaddress._id,
+                    idvlanims: item.vlanims._id,
+                    idvlanmytv: item.vlanmytv._id,
+                    idvlannet: item.vlannet._id,
+                    key: item._id
+                }
+
+            });
             setData(datatab)
             setLoadingButton(false)
         } else {
@@ -95,21 +90,23 @@ const SubmitDevice = () => {
         const res = await ServiceDevice.deleteDevice(_id)
         if (res.detail.msg === "success") {
             message.success("Xóa thành công")
-            let datatab = []
-            res.detail.data?.map((item, i) => {
-                datatab.push(
-                    {
-                        _id: item._id,
-                        ipaddress: item.ipaddress,
-                        vlanims: item.vlanims,
-                        vlanmytv: item.vlanmytv,
-                        vlannet: item.vlannet,
-                        loaithietbi: item.loaithietbi,
-                        tenthietbi: item.tenthietbi,
-                        key: item._id
-                    }
-                )
-            })
+            const datatab = data.map((item, i) => {
+                return {
+                    _id: item._id,
+                    ipaddress: item.ipaddress.number,
+                    vlanims: item.vlanims.number,
+                    vlanmytv: item.vlanmytv.number,
+                    vlannet: item.vlannet.number,
+                    loaithietbi: item.loaithietbi,
+                    tenthietbi: item.tenthietbi,
+                    idip: item.ipaddress._id,
+                    idvlanims: item.vlanims._id,
+                    idvlanmytv: item.vlanmytv._id,
+                    idvlannet: item.vlannet._id,
+                    key: item._id
+                }
+
+            });
             setData(datatab)
         } else {
             message.error("Lỗi")
@@ -122,25 +119,23 @@ const SubmitDevice = () => {
         const res = await ServiceDevice.createDevice(values)
         if (res.detail.msg === "success") {
             message.success("Thêm thành công")
-            let datatab = []
-            res.detail.data?.map((item, i) => {
-                datatab.push(
-                    {
-                        _id: item._id,
-                        ipaddress: item.ipaddress.number,
-                        vlanims: item.vlanims.number,
-                        vlanmytv: item.vlanmytv.number,
-                        vlannet: item.vlannet.number,
-                        loaithietbi: item.loaithietbi,
-                        tenthietbi: item.tenthietbi,
-                        idip: item.ipaddress._id,
-                        idvlanims: item.vlanims._id,
-                        idvlanmytv: item.vlanmytv._id,
-                        idvlannet: item.vlannet._id,
-                        key: item._id
-                    }
-                )
-            })
+            const datatab = data.map((item, i) => {
+                return {
+                    _id: item._id,
+                    ipaddress: item.ipaddress.number,
+                    vlanims: item.vlanims.number,
+                    vlanmytv: item.vlanmytv.number,
+                    vlannet: item.vlannet.number,
+                    loaithietbi: item.loaithietbi,
+                    tenthietbi: item.tenthietbi,
+                    idip: item.ipaddress._id,
+                    idvlanims: item.vlanims._id,
+                    idvlanmytv: item.vlanmytv._id,
+                    idvlannet: item.vlannet._id,
+                    key: item._id
+                }
+
+            });
             setData(datatab)
             setLoadingButton(false)
 
@@ -219,7 +214,6 @@ const SubmitDevice = () => {
         dataTable,
         editTab,
         setEditTab,
-        valueEdit,
         idEdit,
         loading,
         handleEdit,

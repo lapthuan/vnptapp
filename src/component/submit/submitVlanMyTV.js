@@ -9,27 +9,24 @@ const SubmitVlanMyTV = () => {
     const [dataTable, setData] = useState([])
     const [editTab, setEditTab] = useState(false)
     const [idEdit, setIdEdit] = useState()
-    const [valueEdit, setValueEdit] = useState()
 
     const { data, loading } = useAsync(() => ServiceVlanMyTV.getAllVlanMyTV())
     const [form] = useForm();
 
-    let datatab = []
-    data.map((item, i) => {
-        datatab.push(
-            {
-                _id: item._id,
-                number: item.number,
-                key: item._id
-            }
-        )
-    })
-
     useEffect(() => {
-        setData(datatab)
-    }, [data])
+        if (data) {
+            const datatab = data.map((item, i) => {
+                return {
+                    _id: item._id,
+                    number: item.number,
+                    key: item._id
+                }
+            });
+            setData(datatab);
+        }
+    }, [data]);
     const ChangeEdit = async (_id, number) => {
-     
+
         await setIdEdit(_id);
         form.setFieldsValue({
             number: number
@@ -43,19 +40,16 @@ const SubmitVlanMyTV = () => {
             const res = await ServiceVlanMyTV.editVlanMyTV({ number: number }, idEdit)
             if (res.detail.msg === "success") {
                 message.success("Sửa thành công thành công")
-                let datatab = []
-                res.detail.data?.map((item, i) => {
-                    datatab.push(
-                        {
-                            _id: item._id,
-                            number: item.number,
-                            key: item._id
-                        }
-                    )
-                })
-                setData(datatab)
+                const datatab = data.map((item, i) => {
+                    return {
+                        _id: item._id,
+                        number: item.number,
+                        key: item._id
+                    }
+                });
+                setData(datatab);
             } else {
-                message.error("Địa chỉ ip không hợp lệ")
+                message.error("Lỗi")
             }
         } else {
             message.error("Dữ liệu bỏ trống")
@@ -66,17 +60,14 @@ const SubmitVlanMyTV = () => {
         const res = await ServiceVlanMyTV.deleteVlanMyTV(_id)
         if (res.detail.msg === "success") {
             message.success("Xóa thành công")
-            let datatab = []
-            res.detail.data?.map((item, i) => {
-                datatab.push(
-                    {
-                        _id: item._id,
-                        number: item.number,
-                        key: item._id
-                    }
-                )
-            })
-            setData(datatab)
+            const datatab = data.map((item, i) => {
+                return {
+                    _id: item._id,
+                    number: item.number,
+                    key: item._id
+                }
+            });
+            setData(datatab);
         } else {
             message.error("Lỗi")
         }
@@ -88,19 +79,16 @@ const SubmitVlanMyTV = () => {
 
             if (res.detail.msg === "success") {
                 message.success("Thêm thành công")
-                let datatab = []
-                res.detail.data?.map((item, i) => {
-                    datatab.push(
-                        {
-                            _id: item._id,
-                            number: item.number,
-                            key: item._id
-                        }
-                    )
-                })
-                setData(datatab)
+                const datatab = data.map((item, i) => {
+                    return {
+                        _id: item._id,
+                        number: item.number,
+                        key: item._id
+                    }
+                });
+                setData(datatab);
             } else {
-                message.error("Địa chỉ ip không hợp lệ")
+                message.error("Lỗi")
             }
         } else {
             message.error("Dữ liệu bỏ trống")
@@ -155,7 +143,6 @@ const SubmitVlanMyTV = () => {
         dataTable,
         editTab,
         setEditTab,
-        valueEdit,
         idEdit,
         loading,
         handleEdit,
