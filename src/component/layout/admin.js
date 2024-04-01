@@ -37,13 +37,10 @@ const App = () => {
                         <Menu.Item key="1" icon={<MdDevicesOther />}>
                             <Link to="../admin/thietbi">Thiết bị</Link>
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<GrSystem />}>
-                            <Link to="../admin/systemid">SystemID</Link>
-                        </Menu.Item>
                         <Menu.Item key="3" icon={<MdSettingsInputAntenna />}>
                             <Link to="../admin/ip">Ip</Link>
                         </Menu.Item>
-                      
+
                         <Menu.Item key="7" icon={<AiOutlineWifi />}>
                             <Link to="../admin/vlan-net">Vlan Net</Link>
                         </Menu.Item>

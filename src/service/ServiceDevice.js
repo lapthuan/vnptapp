@@ -2,19 +2,19 @@ import requests from "./httpService";
 
 const ServiceDevice = {
     getAlldevice: async () => {
-        return requests.get(`/device/`);
+        return requests.get(`/thietbi/`);
     },
     getDevice: async (id) => {
-        return requests.get(`/device/${id}`);
+        return requests.get(`/thietbi/${id}`);
     },
     createDevice: async (body) => {
-        return requests.post(`/device/`, body);
+        return requests.post(`/thietbi/`, body);
     },
     editDevice: async (body, id) => {
-        return requests.put(`/device/${id}`, body);
+        return requests.put(`/thietbi/${id}`, body);
     },
     deleteDevice: async (id) => {
-        return requests.delete(`/device/${id}`);
+        return requests.delete(`/thietbi/${id}`);
     }
 }
 

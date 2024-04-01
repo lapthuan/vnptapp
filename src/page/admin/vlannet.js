@@ -1,94 +1,76 @@
-import { Button, Card, Divider, Form, Input, Space, Table } from 'antd';
+import { Button, Card, Divider, Form, Input, InputNumber, Space, Table } from 'antd';
+import SubmitVlanNet from '../../component/submit/submitVlanNet';
 
-const columns = [
-    {
-        title: 'ID',
-        dataIndex: 'id'
-    },
-    {
-        title: 'Name',
-        dataIndex: 'name',
-    },
-    {
-        title: "Công cụ",
-        key: "action",
-        render: (id) => (
-            <Space size="middle">
-                <Button type="primary" style={{ backgroundColor: 'green', borderColor: 'green' }}>
-                    Sửa
-                </Button>
-                <Button type="primary" danger>Xóa</Button>
-            </Space >
-        )
-    }
-];
-const data = [
-    {
-        id: '123',
-        key: '1',
-        name: 'John Brown',
-        chinese: 98,
-        math: 60,
-        english: 70,
-    },
-    {
-        id: '123',
-        key: '2',
-        name: 'Jim Green',
-        chinese: 98,
-        math: 66,
-        english: 89,
-    },
-    {
-        id: '123',
-        key: '3',
-        name: 'Joe Black',
-        chinese: 98,
-        math: 90,
-        english: 70,
-    },
-    {
-        id: '123',
-        key: '4',
-        name: 'Jim Red',
-        chinese: 88,
-        math: 99,
-        english: 89,
-    },
-];
+
 const VlanNet = () => {
+    const {
+        form,
+        columns,
+        dataTable,
+        editTab,
+        setEditTab,
+        valueEdit,
+        idEdit,
+        loading,
+        handleEdit,
+        handleSubmit
+    } = SubmitVlanNet();
+
     return (<>
         <Divider orientation="left">Vlan Net</Divider>
         <div className='admin-body'>
 
             <div className='admin-card-1-3'>
-                <Card title="Thông số" bordered={true}  >
+                {editTab === false ? (<Card title="Thêm dữ liệu" bordered={true}  >
                     <Form
-                        labelCol={{ span: 6 }}
+                        form={form}
+                        labelCol={{ span: 8 }}
                         initialValues={{
                             size: 'small',
                         }}
                         layout="horizontal"
                         size={'small'}
                         className='form-card'
-
                     >
 
-                        <Form.Item label="Tên" className='select-item'>
-                            <Input />
+                        <Form.Item label="Vlan Net :" name="number" rules={[{ required: true, message: 'Vui lòng nhập Vlan Net!' }]} className='select-item'>
+                            <InputNumber type='number' />
                         </Form.Item>
 
-                        <Button type='primary' >Thêm</Button>
+                        <Button type='primary' onClick={handleSubmit}>Thêm</Button>
                     </Form>
-                </Card>
+                </Card>) : (<Card title="Sửa dữ liệu" bordered={true}  >
+
+                    <i>Sửa dữ liệu của id: {idEdit.slice(-6)}</i>
+                    <Form
+                        form={form}
+                        labelCol={{ span: 8 }}
+                        initialValues={{
+                            size: 'small',
+                        }}
+                        layout="horizontal"
+                        size={'small'}
+                        className='form-card'
+                    >
+                        <Form.Item label="Vlan Net :" name="number" rules={[{ required: true, message: 'Vui lòng nhập Vlan Net!' }]} className='select-item'>
+                            <InputNumber type='number' placeholder={valueEdit} />
+                        </Form.Item>
+                        <Space size="middle">
+                            <Button type='primary' onClick={handleEdit}>Sửa</Button>
+                            <Button onClick={() => setEditTab(false)}>Trở về thêm</Button>
+
+                        </Space>
+                    </Form>
+                </Card>)}
+
             </div>
             <div className='admin-card-2-3'>
                 <Card title="Bảng" bordered={true}  >
-                    <Table columns={columns} dataSource={data} />
+                    <Table pagination={{ pageSize: 5 }} columns={columns} dataSource={dataTable.slice().reverse()} loading={loading} />
                 </Card>
             </div>
 
-        </div>
+        </div >
     </>);
 }
 

@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from '../component/layout/index'
 import Admin from '../component/layout/admin'
 
-const ThietBi = lazy(() => import('../page/admin/device'));
+import ThietBi from '../page/admin/device'
 const Home = lazy(() => import('../page/home'));
 const Ip = lazy(() => import('../page/admin/ip'));
 const VlanNet = lazy(() => import('../page/admin/vlannet'));

@@ -1,139 +1,23 @@
-import { Button, Card, Divider, Form, Input, Popconfirm, Space, Table, Tooltip, message } from 'antd';
-import { useEffect, useState } from 'react';
-import useAsync from '../../hook/useAsync';
-import { useForm } from 'antd/es/form/Form';
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import ServiceIp from '../../service/ServiceIp';
+import { Button, Card, Divider, Form, Input, Space, Table } from 'antd';
+import SubmitIP from '../../component/submit/submitIp';
+
 
 const Ip = () => {
-    const [dataTable, setData] = useState([])
-    const [editTab, setEditTab] = useState(false)
-    const [idEdit, setIdEdit] = useState()
-    const [valueEdit, setValueEdit] = useState()
 
-    const { data, loading } = useAsync(() => ServiceIp.getAllIp())
-    const [form] = useForm();
+    const {
+        form,
+        columns,
+        dataTable,
+        editTab,
+        setEditTab,
+        valueEdit,
+        idEdit,
+        loading,
+        handleEdit,
+        handleSubmit
+    } = SubmitIP();
 
-    let datatab = []
-    data.map((item, i) => {
-        datatab.push(
-            {
-                _id: item._id,
-                ipaddress: item.ipaddress,
-                key: item._id
-            }
-        )
-    })
 
-    useEffect(() => {
-        setData(datatab)
-    }, [data])
-    const ChangeEdit = async (_id, ipaddress) => {
-        await setIdEdit(_id);
-        await setValueEdit(ipaddress)
-
-        setEditTab(true);
-
-    }
-    const handleEdit = async (_id) => {
-        const res = await ServiceIp.deleteIp(_id)
-        if (res.detail.msg === "success") {
-            message.success("Xóa thành công")
-            let datatab = []
-            res.detail.data?.map((item, i) => {
-                datatab.push(
-                    {
-                        _id: item._id,
-                        ipaddress: item.ipaddress,
-                        key: item._id
-                    }
-                )
-            })
-            setData(datatab)
-        } else {
-            message.error("Lỗi")
-        }
-    }
-    const handleDelete = async (_id) => {
-        const res = await ServiceIp.deleteIp(_id)
-        if (res.detail.msg === "success") {
-            message.success("Xóa thành công")
-            let datatab = []
-            res.detail.data?.map((item, i) => {
-                datatab.push(
-                    {
-                        _id: item._id,
-                        ipaddress: item.ipaddress,
-                        key: item._id
-                    }
-                )
-            })
-            setData(datatab)
-        } else {
-            message.error("Lỗi")
-        }
-    }
-    const handleSubmit = async () => {
-        const ipaddress = form.getFieldValue('ipaddress');
-        const res = await ServiceIp.createIp({ ipaddress: ipaddress })
-
-        if (res.detail.msg === "success") {
-            message.success("Thêm thành công")
-            let datatab = []
-            res.detail.data?.map((item, i) => {
-                datatab.push(
-                    {
-                        _id: item._id,
-                        ipaddress: item.ipaddress,
-                        key: item._id
-                    }
-                )
-            })
-            setData(datatab)
-        } else {
-            message.error("Địa chỉ ip không hợp lệ")
-        }
-    };
-    const columns = [
-        {
-            title: 'ID',
-            dataIndex: '_id',
-            render: (id) => (
-                <p>{id.slice(-6)}</p>
-            )
-        },
-        {
-            title: 'Ip',
-            dataIndex: 'ipaddress',
-            sorter: (a, b) => a.name.localeCompare(b.name),
-            sortDirections: ['descend', 'ascend'],
-        },
-        {
-            title: "Công cụ",
-            key: "action",
-            render: (text, record) => (
-                <Space size="middle">
-                    <Button type="primary" onClick={() => ChangeEdit(record._id, record.ipaddress)} style={{ backgroundColor: 'green', borderColor: 'green' }}>
-                        Sửa
-                    </Button>
-                    <Popconfirm
-                        title="Xóa"
-                        description="Bạn có chắc chắn xóa?"
-                        onConfirm={() => handleDelete(record._id)}
-                        icon={
-                            <QuestionCircleOutlined
-                                style={{
-                                    color: 'red',
-                                }}
-                            />
-                        }
-                    >
-                        <Button danger>Xóa</Button>
-                    </Popconfirm>
-                </Space >
-            )
-        }
-    ];
     return (<>
         <Divider orientation="left">Ip</Divider>
         <div className='admin-body'>
@@ -158,6 +42,7 @@ const Ip = () => {
                         <Button type='primary' onClick={handleSubmit}>Thêm</Button>
                     </Form>
                 </Card>) : (<Card title="Sửa dữ liệu" bordered={true}  >
+
                     <i>Sửa dữ liệu của id: {idEdit.slice(-6)}</i>
                     <Form
                         form={form}
@@ -172,8 +57,11 @@ const Ip = () => {
                         <Form.Item label="IP :" tooltip="Nhập đúng định dạng IPv4" name="ipaddress" rules={[{ required: true, message: 'Vui lòng nhập Ip!' }]} className='select-item'>
                             <Input placeholder={valueEdit} />
                         </Form.Item>
+                        <Space size="middle">
+                            <Button type='primary' onClick={handleEdit}>Sửa</Button>
+                            <Button onClick={() => setEditTab(false)}>Trở về thêm</Button>
 
-                        <Button type='primary' onClick={handleSubmit}>Sửa</Button>
+                        </Space>
                     </Form>
                 </Card>)}
 
@@ -184,7 +72,7 @@ const Ip = () => {
                 </Card>
             </div>
 
-        </div>
+        </div >
     </>);
 }
 
