@@ -40,7 +40,7 @@ const SubmitVlanMyTV = () => {
             const res = await ServiceVlanMyTV.editVlanMyTV({ number: number }, idEdit)
             if (res.detail.msg === "success") {
                 message.success("Sửa thành công thành công")
-                const datatab = data.map((item, i) => {
+                const datatab =  await res.detail.data.map((item, i) => {
                     return {
                         _id: item._id,
                         number: item.number,
@@ -60,7 +60,7 @@ const SubmitVlanMyTV = () => {
         const res = await ServiceVlanMyTV.deleteVlanMyTV(_id)
         if (res.detail.msg === "success") {
             message.success("Xóa thành công")
-            const datatab = data.map((item, i) => {
+            const datatab =  await res.detail.data.map((item, i) => {
                 return {
                     _id: item._id,
                     number: item.number,
@@ -79,7 +79,7 @@ const SubmitVlanMyTV = () => {
 
             if (res.detail.msg === "success") {
                 message.success("Thêm thành công")
-                const datatab = data.map((item, i) => {
+                const datatab =  await res.detail.data.map((item, i) => {
                     return {
                         _id: item._id,
                         number: item.number,

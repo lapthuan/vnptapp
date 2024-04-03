@@ -72,37 +72,4 @@ code {
   margin: 10px;
   border-radius: 5px;
 }
-
-@media screen and (max-width: 992px) {
-  .body-ts{
-    float: left;
-    width: 100%;
-  }
-  
-  .body-terminal{
-    float: left;
-    width: 100%;
-  }
-  .layout-card{
-    min-height: 200vh;
-  }
-  .body-home{
-    justify-content: center;
-    display: block;
-  }
-}
-
-@media screen and (max-width: 600px) {
-  .body-ts{
-    float: left;
-    width: 100%;
-  }
-  
-  .body-terminal{
-    float: left;
-    width: 100%;
-  }
-  .layout-card{
-    min-height: 200vh;
-  }
-}
+/* iframe#webpack-dev-server-client-overlay{display:none!important} */

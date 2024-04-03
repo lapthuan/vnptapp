@@ -154,9 +154,9 @@ const Ip = () => {
 
             </div>
             <div className='admin-card-2-3'>
-                <Card title="Bảng" bordered={true}  >
-                    <Table pagination={{ pageSize: 4 }} columns={columns} dataSource={dataTable.slice().reverse()} loading={loading} />
-                </Card>
+
+                <Table pagination={{ pageSize: 4 }} columns={columns} dataSource={dataTable.slice().reverse()} loading={loading} />
+
             </div>
 
         </div >

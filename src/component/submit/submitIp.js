@@ -42,7 +42,7 @@ const SubmitIP = () => {
             const res = await ServiceIp.editIp({ ipaddress: ipaddress }, idEdit)
             if (res.detail.msg === "success") {
                 message.success("Sửa thành công thành công")
-                const datatab = data.map((item, i) => {
+                const datatab =  await res.detail.data.map((item, i) => {
                     return {
                         _id: item._id,
                         ipaddress: item.ipaddress,
@@ -62,7 +62,7 @@ const SubmitIP = () => {
         const res = await ServiceIp.deleteIp(_id)
         if (res.detail.msg === "success") {
             message.success("Xóa thành công")
-            const datatab = data.map((item, i) => {
+            const datatab =  await res.detail.data.map((item, i) => {
                 return {
                     _id: item._id,
                     ipaddress: item.ipaddress,
@@ -81,7 +81,7 @@ const SubmitIP = () => {
 
             if (res.detail.msg === "success") {
                 message.success("Thêm thành công")
-                const datatab = data.map((item, i) => {
+                const datatab =  await res.detail.data.map((item, i) => {
                     return {
                         _id: item._id,
                         ipaddress: item.ipaddress,

@@ -63,7 +63,7 @@ const SubmitDevice = () => {
         const res = await ServiceDevice.editDevice(values, idEdit)
         if (res.detail.msg === "success") {
             message.success("Sửa dữ liệu thành công")
-            const datatab = data.map((item, i) => {
+            const datatab = await res.detail.data.map((item, i) => {
                 return {
                     _id: item._id,
                     ipaddress: item.ipaddress.number,
@@ -90,7 +90,7 @@ const SubmitDevice = () => {
         const res = await ServiceDevice.deleteDevice(_id)
         if (res.detail.msg === "success") {
             message.success("Xóa thành công")
-            const datatab = data.map((item, i) => {
+            const datatab = await res.detail.data.map((item, i) => {
                 return {
                     _id: item._id,
                     ipaddress: item.ipaddress.number,
@@ -119,7 +119,7 @@ const SubmitDevice = () => {
         const res = await ServiceDevice.createDevice(values)
         if (res.detail.msg === "success") {
             message.success("Thêm thành công")
-            const datatab = data.map((item, i) => {
+            const datatab = await res.detail.data.map((item, i) => {
                 return {
                     _id: item._id,
                     ipaddress: item.ipaddress.number,

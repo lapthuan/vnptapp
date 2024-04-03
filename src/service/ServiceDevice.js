@@ -7,6 +7,9 @@ const ServiceDevice = {
     getDevice: async (id) => {
         return requests.get(`/thietbi/${id}`);
     },
+    getADevice: async (id) => {
+        return requests.get(`/thietbi/id/${id}`);
+    },
     createDevice: async (body) => {
         return requests.post(`/thietbi/`, body);
     },
