@@ -4,12 +4,15 @@ import {
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
 
-import { MdDevicesOther, MdSettingsInputAntenna } from "react-icons/md";
+import { MdDevicesOther, MdSettingsInputAntenna, MdFlashOn, MdTimeline, MdSettingsEthernet } from "react-icons/md";
 import { FaTv } from 'react-icons/fa';
 import { AiOutlineWifi, AiOutlineApartment } from 'react-icons/ai'
 import { Layout, Menu, Button, theme } from 'antd';
 import { Link, Outlet } from 'react-router-dom';
 import { Footer } from 'antd/es/layout/layout';
+import logo from "../../assets/images/logo.png";
+import { FaNetworkWired } from 'react-icons/fa';
+
 const { Header, Sider, Content } = Layout;
 const App = () => {
     const [collapsed, setCollapsed] = useState(false);
@@ -25,7 +28,10 @@ const App = () => {
 
             <Layout style={{ height: "120vh" }} >
                 <Sider trigger={null} collapsible collapsed={collapsed}>
-                    <div className="logo-admin"  > Admin </div>
+                    <div className="brand-admin">
+                        <img src={logo} alt="" />
+                        <span>VNPT ADMIN</span>
+                    </div>
                     <Menu
                         theme="dark"
                         mode="inline"
@@ -48,6 +54,12 @@ const App = () => {
                         <Menu.Item key="10" icon={<AiOutlineApartment />}>
                             <Link to="../admin/vlan-ims">Vlan IMS</Link>
                         </Menu.Item>
+                        <Menu.Item key="11" icon={<MdTimeline />}>
+                            <Link to={'/gpon'}>GPON</Link>
+                        </Menu.Item>
+                        <Menu.Item key="12" icon={<MdSettingsEthernet  />}>
+                            <Link to={'/bras'}>BRAS</Link>
+                        </Menu.Item>
                     </Menu>
                 </Sider>
                 <Layout>
@@ -67,10 +79,7 @@ const App = () => {
                                 height: 64,
                             }}
                         />
-                        <Button type='primary' style={{
-                            marginRight: "10px"
-                        }}><Link to={'/gpon'}>GPON</Link></Button>
-                        <Button type=''><Link to={'/'}>BRAS</Link></Button>
+
 
                     </Header>
                     <Content
@@ -85,7 +94,7 @@ const App = () => {
                         <Outlet />
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>
-                        Design ©{new Date().getFullYear()}
+                        Design ©{new Date().getFullYear()} by L.Thuận
                     </Footer>
                 </Layout>
             </Layout>

@@ -1,5 +1,6 @@
 import { Button, Layout, Space, theme } from 'antd';
 import { Outlet, Link } from "react-router-dom";
+import logo from "../../assets/images/logo.png";
 
 
 const { Header, Content, Footer } = Layout;
@@ -19,7 +20,10 @@ const App = () => {
                 }}
 
             >
-                <div className="logo" >BRAS TOOL</div>
+                <div className="brand">
+                    <img src={logo} alt="" />
+                    <span>VNPT Auto BRAS</span>
+                </div>
                 <Space >
                     <Button style={{ marginRight: "10px" }} ><Link to={'/gpon'}>GPON</Link></Button>
                     <Button type='primary' ><Link to={'/admin'}>Admin</Link></Button>
@@ -40,7 +44,8 @@ const App = () => {
                 </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>
-                Design ©{new Date().getFullYear()}
+                Design ©{new Date().getFullYear()} by L.Thuận
+
             </Footer>
         </Layout>
 

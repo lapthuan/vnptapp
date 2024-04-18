@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Card, Form, Input, Radio } from 'antd';
-import { Select, Space } from 'antd';
+import { Space } from 'antd';
 import Terminal, { ColorMode, TerminalOutput } from 'react-terminal-ui';
+
 
 const Bras = () => {
     const [lineData, setLineData] = useState([
@@ -21,23 +22,20 @@ const Bras = () => {
         // Alternatively, using spread operator:
         // setLineData(prevLineData => [...prevLineData, newLine]);
     }
+    const handleChange = (event) => {
+        setMacAddress(event.target.value);
+    };
+    const convertToMacAddress = useCallback(() => {
+        // Chuyển đổi chuỗi đầu vào thành định dạng địa chỉ MAC
+        const mac = macAddress.match(/.{1,2}/g).join(':').toUpperCase();
+        setMacAddress(mac);
+    }, [macAddress]);
 
     useEffect(() => {
         if (macAddress.length === 12) {
             convertToMacAddress();
         }
-    }, [macAddress]);
-
-    const handleChange = (event) => {
-        setMacAddress(event.target.value);
-    };
-
-    const convertToMacAddress = () => {
-        // Chuyển đổi chuỗi đầu vào thành định dạng địa chỉ MAC
-        const mac = macAddress.match(/.{1,2}/g).join(':').toUpperCase();
-        setMacAddress(mac);
-
-    };
+    }, [macAddress, convertToMacAddress]);
     return (
         <>
             <div className='body-home'>

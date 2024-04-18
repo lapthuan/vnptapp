@@ -139,16 +139,13 @@ const Gpon = () => {
 
                 <div className='body-terminal'>
 
-                    <Terminal height="40vh" colorMode={ColorMode.Dark} >
+                    <Terminal style={{ width: "150px" }} height="40vh" colorMode={ColorMode.Dark} >
                         {lineData}
                     </Terminal>
 
                     <Button onClick={handleClick} hidden>Bấm vào em nè</Button>
 
                 </div>
-
-
-
             </div>
             <Card bordered={true} title="Chức năng" >
                 <Radio.Group >
