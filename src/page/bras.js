@@ -15,6 +15,7 @@ const Bras = () => {
     ]);
 
     const [macAddress, setMacAddress] = useState('');
+    const [convertedMacAddress, setConvertedMacAddress] = useState('');
     const handleClick = () => {
         // Concatenate a new line to lineData
         const newLine = <TerminalOutput> $ Hello </TerminalOutput>;
@@ -24,18 +25,23 @@ const Bras = () => {
     }
     const handleChange = (event) => {
         setMacAddress(event.target.value);
-    };
-    const convertToMacAddress = useCallback(() => {
-        // Chuyển đổi chuỗi đầu vào thành định dạng địa chỉ MAC
-        const mac = macAddress.match(/.{1,2}/g).join(':').toUpperCase();
-        setMacAddress(mac);
-    }, [macAddress]);
+        if (event.target.value !== "") {
+            setConvertedMacAddress(convertMacAddress(event.target.value));
+            const newLine = <TerminalOutput>$ {convertMacAddress(event.target.value)} </TerminalOutput>;
 
-    useEffect(() => {
-        if (macAddress.length === 12) {
-            convertToMacAddress();
+            setLineData(prevLineData => [...prevLineData, newLine]);
+        } else {
+            setConvertedMacAddress("")
+
         }
-    }, [macAddress, convertToMacAddress]);
+    };
+    // Function to convert MAC address to desired format
+    const convertMacAddress = (mac) => {
+        const cleanMac = mac.replace(/[^a-zA-Z0-9]/g, '');
+        const formattedMac = cleanMac.match(/.{1,2}/g).join(':');
+        return formattedMac;
+    }
+
     return (
         <>
             <div className='body-home'>
@@ -76,7 +82,8 @@ const Bras = () => {
                                 value={macAddress}
                                 onChange={handleChange}
                             />
-                            <Button onClick={() => setMacAddress("")}>Clear</Button>
+                            <p> {convertedMacAddress}</p>
+                            {/* <Button onClick={() => setMacAddress("")}>Clear</Button> */}
                         </Space>
                     </Card>
                 </div>
