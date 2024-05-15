@@ -185,7 +185,7 @@ const SubmitDevice = () => {
             key: "action",
             render: (text, record) => (
                 <Space size="middle">
-                    <Button type="primary" onClick={() => ChangeEdit(record)} style={{ backgroundColor: 'green', borderColor: 'green' }}>
+                    <Button type="primary" onClick={() => ChangeEdit(record.I)} style={{ backgroundColor: 'green', borderColor: 'green' }}>
                         Sửa
                     </Button>
                     <Popconfirm
