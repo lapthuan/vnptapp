@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Form, Input, Radio } from 'antd';
+import { Button, Card, Form, Input, InputNumber, Radio, message } from 'antd';
 import { Select, Space } from 'antd';
 import Terminal, { ColorMode, TerminalOutput } from 'react-terminal-ui';
 import useAsync from '../hook/useAsync';
@@ -9,6 +9,7 @@ import ServiceVlanMyTV from '../service/ServiceVlanMyTV';
 import ServiceVlanNet from '../service/ServiceVlanNet';
 import ServiceDevice from '../service/ServiceDevice';
 import { useForm } from 'antd/es/form/Form';
+import ServiceGpon from '../service/ServiceGpon';
 
 const Gpon = () => {
     const [lineData, setLineData] = useState([
@@ -23,11 +24,59 @@ const Gpon = () => {
     const [devices, setDevices] = useState([]);
     const [loadingDevices, setLoadingDevices] = useState(false);
     const [selectDevices, setSelectDevices] = useState();
+    const [radioValue, setRadioValue] = useState(null);
     const { data: dataIp, loading: loadingIp } = useAsync(() => ServiceIp.getAllIp())
     const { data: dataVlanIMS, loading: loadingVlanIMS } = useAsync(() => ServiceVlanIMS.getAllVlanIMS())
     const { data: dataVlanMyTV, loading: loadingVlanMyTV } = useAsync(() => ServiceVlanMyTV.getAllVlanMyTV())
     const { data: dataVlanNet, loading: loadingVlanNet } = useAsync(() => ServiceVlanNet.getAllVlanNet())
     const [form] = useForm();
+    const [form2] = useForm();
+
+    const controlGpon = async (mytv, net, ims, ip, tenthietbi, loaithietbi, form2Values) => {
+
+        const data =
+        {
+            "ipaddress": ip,
+            "commands": radioValue,
+            "device_types": loaithietbi,
+            "card": form2Values.card,
+            "port": form2Values.port,
+            "onu": form2Values.onuId,
+            "slid": form2Values.slId,
+            "vlanims": ims,
+            "vlanmytv": mytv,
+            "vlannet": net
+        }
+        console.log(data);
+        const res = await ServiceGpon.ControlGpon(data)
+
+        const newLine = <TerminalOutput> {res.detail[0]}</TerminalOutput>;
+        setLineData(prevLineData => prevLineData.concat(newLine));
+    }
+
+    const handleRun = async () => {
+        try {
+            const formValues = await form.validateFields();
+            const form2Values = await form2.validateFields();
+            if (radioValue === null) {
+                message.error('Vui lòng chọn một chức năng.');
+                return;
+            }
+
+            const device = devices.find(item => item._id === formValues.deviceName)
+            const ip = dataIp.find(item => item._id === formValues.ipaddress)
+            const mytv = dataVlanMyTV.find(item => item._id === formValues.vlanmytv)
+            const net = dataVlanNet.find(item => item._id === formValues.vlannet)
+            const ims = dataVlanIMS.find(item => item._id === formValues.vlanims)
+
+            controlGpon(mytv.number, net.number, ims.number, ip.ipaddress, device.tenthietbi, device.loaithietbi, form2Values)
+            // Process the collected data as needed
+        } catch (error) {
+            console.error('Validation failed:', error);
+            message.error('Vui lòng điền đầy đủ thông tin.');
+        }
+    };
+
 
     useEffect(() => {
         if (deviceType) {
@@ -82,15 +131,15 @@ const Gpon = () => {
                             className='form-card'
 
                         >
-                            <Form.Item label="Loại thiết bị" className='select-item'>
-                                <Select style={{ width: "100%" }} onChange={value => setDeviceType(value)} placeholder="Chọn loại thiết bị">
+                            <Form.Item label="Loại thiết bị" className='select-item' name="deviceType" rules={[{ required: true, message: 'Vui lòng chọn loại thiết bị' }]}>
+                                <Select style={{ width: "100%" }} onChange={value => setDeviceType(value)} placeholder="Chọn loại thiết bị" >
                                     <Select.Option value="GPON ALU">GPON ALU</Select.Option>
                                     <Select.Option value="GPON HW">GPON HW</Select.Option>
                                     <Select.Option value="GPON MINI ZTE">GPON Mini ZTE</Select.Option>
                                     <Select.Option value="GPON ZTE">GPON ZTE</Select.Option>
                                 </Select>
                             </Form.Item>
-                            <Form.Item label="Thiết bị" className='select-item'>
+                            <Form.Item label="Thiết bị" className='select-item' name="deviceName" rules={[{ required: true, message: 'Vui lòng chọn thiết bị' }]}>
                                 <Select style={{ width: "100%" }} placeholder="Chọn thiết bị" onChange={value => setSelectDevices(value)} loading={loadingDevices}>
                                     {devices.map(device => (
                                         <Select.Option key={device._id} value={device._id}>
@@ -101,7 +150,7 @@ const Gpon = () => {
                                 </Select>
                             </Form.Item>
 
-                            <Form.Item label="Ip" name="ipaddress" className='select-item'>
+                            <Form.Item label="Ip" name="ipaddress" className='select-item' rules={[{ required: true, message: 'Vui lòng chọn Ip' }]}>
                                 <Select style={{ width: "100%" }} placeholder="Chọn Ip" loading={loadingIp}>
                                     {dataIp?.map((item, i) => (
                                         <Select.Option key={item._id} value={item._id}>{item.ipaddress}</Select.Option>
@@ -111,14 +160,14 @@ const Gpon = () => {
                             </Form.Item>
 
 
-                            <Form.Item label="Vlan Net" name="vlannet" className='select-item'>
+                            <Form.Item label="Vlan Net" name="vlannet" className='select-item' rules={[{ required: true, message: 'Vui lòng chọn Vlan Net' }]}>
                                 <Select style={{ width: "100%" }} placeholder="Chọn Vlan Net" loading={loadingVlanNet}>
                                     {dataVlanNet?.map((item, i) => (
                                         <Select.Option key={item._id} value={item._id}>{item.number}</Select.Option>
                                     ))}
                                 </Select>
                             </Form.Item>
-                            <Form.Item label="Vlan Mytv" name="vlanmytv" className='select-item'>
+                            <Form.Item label="Vlan Mytv" name="vlanmytv" className='select-item' rules={[{ required: true, message: 'Vui lòng chọn Vlan Mytv' }]}>
                                 <Select style={{ width: "100%" }} placeholder="Chọn Vlan Mytv" loading={loadingVlanMyTV}>
                                     {dataVlanMyTV?.map((item, i) => (
                                         <Select.Option key={item._id} value={item._id}>{item.number}</Select.Option>
@@ -126,7 +175,7 @@ const Gpon = () => {
                                 </Select>
                             </Form.Item>
 
-                            <Form.Item label="Vlan IMS" name="vlanims" className='select-item' loading={loadingVlanIMS}>
+                            <Form.Item label="Vlan IMS" name="vlanims" className='select-item' loading={loadingVlanIMS} rules={[{ required: true, message: 'Vui lòng chọn Vlan IMS' }]}>
                                 <Select placeholder="Chọn Vlan IMS">
                                     {dataVlanIMS?.map((item, i) => (
                                         <Select.Option key={item._id} value={item._id}>{item.number}</Select.Option>
@@ -143,12 +192,12 @@ const Gpon = () => {
                         {lineData}
                     </Terminal>
 
-                    <Button onClick={handleClick} hidden>Bấm vào em nè</Button>
+
 
                 </div>
             </div>
             <Card bordered={true} title="Chức năng" >
-                <Radio.Group >
+                <Radio.Group onChange={e => setRadioValue(e.target.value)}>
                     <Space>
                         <Space.Compact direction="vertical">
 
@@ -164,7 +213,7 @@ const Gpon = () => {
                         <Space.Compact direction="vertical">
                             <Radio value={111}>Xem Seri nhận trên port Onu</Radio>
                             <Radio value={211}>Xem profile Onu</Radio>
-                            <Radio value={311}>Xem Mac</Radio>
+                            <Radio value={"check_mac"}>Xem Mac</Radio>
                             <Radio value={4111}>Cấu hình Onu-Seri-VNPT</Radio>
                             <Radio value={1333}>Set Tốc Độ</Radio>
                             <Radio value={233}>Tìm Onu bằng Sn</Radio>
@@ -181,25 +230,24 @@ const Gpon = () => {
                                 layout="horizontal"
                                 size={'small'}
                                 className='form-card'
-
+                                form={form2}
                             >
-                                <Form.Item label="Slot" className='select-item'>
-                                    <Input placeholder='Nhập Slot' />
+                                <Form.Item label="Card" name="card" className='select-item' rules={[{ required: true, message: 'Vui lòng nhập Card' }]}>
+                                    <InputNumber placeholder='Nhập Card' />
                                 </Form.Item>
-
-                                <Form.Item label="Port" className='select-item'>
-                                    <Input placeholder='Nhập Port' />
+                                <Form.Item label="Port" name="port" className='select-item' rules={[{ required: true, message: 'Vui lòng nhập Port' }]}>
+                                    <InputNumber placeholder='Nhập Port' />
                                 </Form.Item>
-                                <Form.Item label="Onu ID" className='select-item'>
-                                    <Input placeholder='Nhập Onu ID' />
+                                <Form.Item label="Onu ID" name="onuId" className='select-item' rules={[{ required: true, message: 'Vui lòng nhập Onu ID' }]}>
+                                    <InputNumber placeholder='Nhập Onu ID' />
                                 </Form.Item>
-                                <Form.Item label="SSL ID" className='select-item'>
-                                    <Input placeholder='Nhập SSL ID' />
+                                <Form.Item label="SL ID" name="slId" className='select-item' rules={[{ required: true, message: 'Vui lòng nhập SL ID' }]}>
+                                    <InputNumber placeholder='Nhập SL ID' />
                                 </Form.Item>
                             </Form>
                         </Space.Compact>
                         <Space.Compact align="center">
-                            <Button type='primary'> Run </Button>
+                            <Button type='primary' onClick={handleRun}> Run </Button>
                         </Space.Compact>
                     </Space>
 

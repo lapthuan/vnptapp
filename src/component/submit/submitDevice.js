@@ -26,17 +26,17 @@ const SubmitDevice = () => {
         const datatab = data.map((item, i) => {
             return {
                 _id: item._id,
-                ipaddress: item.ipaddress.number,
-                vlanims: item.vlanims.number,
-                vlanmytv: item.vlanmytv.number,
-                vlannet: item.vlannet.number,
-                loaithietbi: item.loaithietbi,
-                tenthietbi: item.tenthietbi,
-                idip: item.ipaddress._id,
-                idvlanims: item.vlanims._id,
-                idvlanmytv: item.vlanmytv._id,
-                idvlannet: item.vlannet._id,
-                key: item._id
+                ipaddress: item.ipaddress?.number || "",
+                vlanims: item.vlanims?.number || "",
+                vlanmytv: item.vlanmytv?.number || "",
+                vlannet: item.vlannet?.number || "",
+                loaithietbi: item.loaithietbi || "",
+                tenthietbi: item.tenthietbi || "",
+                idip: item.ipaddress?._id || "",
+                idvlanims: item.vlanims?._id || "",
+                idvlanmytv: item.vlanmytv?._id || "",
+                idvlannet: item.vlannet?._id || "",
+                key: item._id || ""
             }
 
         });
@@ -81,6 +81,15 @@ const SubmitDevice = () => {
 
             });
             setData(datatab)
+            setEditTab(false)
+            form.setFieldsValue({
+                loaithietbi: "",
+                tenthietbi: "",
+                ipaddress: "",
+                vlanims: "",
+                vlanmytv: "",
+                vlannet: "",
+            });
             setLoadingButton(false)
         } else {
             message.error("Lỗi")
@@ -137,6 +146,14 @@ const SubmitDevice = () => {
 
             });
             setData(datatab)
+            form.setFieldsValue({
+                loaithietbi: "",
+                tenthietbi: "",
+                ipaddress: "",
+                vlanims: "",
+                vlanmytv: "",
+                vlannet: "",
+            });
             setLoadingButton(false)
 
         } else {
@@ -185,7 +202,7 @@ const SubmitDevice = () => {
             key: "action",
             render: (text, record) => (
                 <Space size="middle">
-                    <Button type="primary" onClick={() => ChangeEdit(record.I)} style={{ backgroundColor: 'green', borderColor: 'green' }}>
+                    <Button type="primary" onClick={() => ChangeEdit(record)} style={{ backgroundColor: 'green', borderColor: 'green' }}>
                         Sửa
                     </Button>
                     <Popconfirm
