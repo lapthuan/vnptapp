@@ -65,9 +65,21 @@ code {
 
 .body-terminal {
   flex: 2;
+  max-width: 1000px;
 }
 
+.react-terminal-line {
+  white-space: pre-wrap !important;
+}
 
+.react-terminal-wrapper {
+	font-size: 14px !important;
+}
+.react-terminal {
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+}
 
 @media (max-width: 768px) {
   .body-home {
