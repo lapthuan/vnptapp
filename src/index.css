@@ -81,7 +81,9 @@ code {
   }
 }
 
-
+.white-space {
+  white-space: normal;
+}
 .layout-card {
   min-height: 90vh;
 }

@@ -50,14 +50,18 @@ const Gpon = () => {
         console.log(data);
         const res = await ServiceGpon.ControlGpon(data)
 
-        const newLine = <TerminalOutput> {res.detail[0]}</TerminalOutput>;
+        const newLine = <TerminalOutput className="white-space"> {res.detail[0]}</TerminalOutput>;
         setLineData(prevLineData => prevLineData.concat(newLine));
     }
 
     const handleRun = async () => {
         try {
+            const newLine = <TerminalOutput>$ ...</TerminalOutput>;
+            setLineData(prevLineData => prevLineData.concat(newLine));
+
             const formValues = await form.validateFields();
             const form2Values = await form2.validateFields();
+
             if (radioValue === null) {
                 message.error('Vui lòng chọn một chức năng.');
                 return;
