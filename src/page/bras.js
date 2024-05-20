@@ -1,38 +1,49 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button, Card, Form, Input, Radio, message } from "antd";
-import { useForm } from "antd/es/form/Form";
 import { Space } from "antd";
 import Terminal, { ColorMode, TerminalOutput } from "react-terminal-ui";
 import ServiceBras from "../service/ServiceBras";
+import { useForm } from "antd/es/form/Form";
 
 const Bras = () => {
   const [lineData, setLineData] = useState([
-    <TerminalOutput>Chào mừng đến với Auto Bras</TerminalOutput>,
+    <TerminalOutput key="welcome">Chào mừng đến với Auto Bras</TerminalOutput>,
   ]);
 
   const [macAddress, setMacAddress] = useState("");
+  const [userBras, setUserBras] = useState("");
   const [convertedMacAddress, setConvertedMacAddress] = useState("");
   const [radioValue, setRadioValue] = useState(null);
+  const [macDisabled, setMacDisabled] = useState(true);
+  const [userDisabled, setUserDisabled] = useState(true);
   const [form] = useForm();
-  const handleClick = () => {
-    // Concatenate a new line to lineData
-    const newLine = <TerminalOutput> $ Hello </TerminalOutput>;
-    setLineData((prevLineData) => prevLineData.concat(newLine));
-    // Alternatively, using spread operator:
-    // setLineData(prevLineData => [...prevLineData, newLine]);
-  };
 
-  const controlBras = async (mac) => {
-    const data = {
-      command: radioValue,
-      mac: mac,
-    };
-    const res = await ServiceBras.ControlBras(data);
-    console.log(res);
+  const handleClick = () => {
     const newLine = (
-      <TerminalOutput> {res.detail.data.map((item) => item)}</TerminalOutput>
+      <TerminalOutput key={lineData.length}>$ Hello</TerminalOutput>
     );
     setLineData((prevLineData) => prevLineData.concat(newLine));
+  };
+
+  const controlBras = async (data) => {
+    const res = await ServiceBras.ControlBras(data);
+    if (res.detail && Array.isArray(res.detail.data)) {
+      const newLine = (
+        <TerminalOutput key={lineData.length}>
+          {res.detail.data.map((item, index) => (
+            <div key={index}>{item}</div>
+          ))}
+        </TerminalOutput>
+      );
+      setLineData((prevLineData) => prevLineData.concat(newLine));
+    } else {
+      const newLine = (
+        <TerminalOutput key={lineData.length}>
+          {"Unexpected response format"}
+        </TerminalOutput>
+      );
+      setLineData((prevLineData) => prevLineData.concat(newLine));
+    }
   };
 
   const handleRun = async () => {
@@ -42,16 +53,30 @@ const Bras = () => {
         message.error("Vui lòng chọn một chức năng.");
         return;
       }
-      if (convertedMacAddress.length !== 17) {
-        message.error("Địa chỉ MAC phải đủ 12 ký tự.");
-        return;
+
+      let data = {};
+      if (radioValue === "check_auth_mac" || radioValue === "check_lock_mac") {
+        if (convertedMacAddress.length !== 17) {
+          message.error("Địa chỉ MAC phải đủ 12 ký tự.");
+          return;
+        }
+        data = { command: radioValue, mac: convertedMacAddress };
+      } else if (radioValue === "check_user_bras") {
+        if (userBras === "") {
+          message.error("Vui lòng nhập username.");
+          return;
+        }
+        data = { command: radioValue, username_bras: userBras };
+      } else {
+        data = { command: radioValue };
       }
 
-      const newLine = <TerminalOutput>{"..."}</TerminalOutput>;
+      const newLine = (
+        <TerminalOutput key={lineData.length}>...</TerminalOutput>
+      );
       setLineData((prevLineData) => prevLineData.concat(newLine));
 
-      controlBras(convertedMacAddress);
-      // Process the collected data as needed
+      controlBras(data);
     } catch (error) {
       console.error("Validation failed:", error);
       message.error("Vui lòng điền đầy đủ thông tin.");
@@ -66,7 +91,24 @@ const Bras = () => {
       setConvertedMacAddress("");
     }
   };
-  // Function to convert MAC address to desired format
+
+  const handleRadioChange = (e) => {
+    const value = e.target.value;
+    setRadioValue(value);
+    if (value === "check_auth_mac" || value === "check_lock_mac") {
+      setUserBras("");
+      setMacDisabled(false);
+      setUserDisabled(true);
+    } else if (value === "check_user_bras") {
+      setMacAddress("");
+      setMacDisabled(true);
+      setUserDisabled(false);
+    } else {
+      setMacDisabled(true);
+      setUserDisabled(true);
+    }
+  };
+
   const convertMacAddress = (mac) => {
     const cleanMac = mac.replace(/[^a-zA-Z0-9]/g, "");
     const formattedMac = cleanMac.match(/.{1,2}/g).join(":");
@@ -74,64 +116,75 @@ const Bras = () => {
   };
 
   const handleClear = () => {
-    setLineData([<TerminalOutput>$</TerminalOutput>]);
+    setLineData([<TerminalOutput key="$">$</TerminalOutput>]);
   };
 
   return (
-    <>
-      <div className="body-home">
-        <div className="body-ts">
-          <Card
-            title="Thông số"
-            bordered={true}
-            style={{ width: 400, margin: "auto" }}
+    <div className="body-home">
+      <div className="body-ts">
+        <Card
+          title="Thông số"
+          bordered={true}
+          style={{ width: 400, margin: "auto" }}
+        >
+          <Form
+            labelCol={{ span: 10 }}
+            initialValues={{ size: "small" }}
+            layout="vertical"
+            size="small"
+            className="form-card"
+            form={form}
           >
-            <Form
-              labelCol={{ span: 10 }}
-              initialValues={{
-                size: "small",
-              }}
-              layout="vertical"
-              size={"small"}
-              className="form-card"
-              form={form}
-            >
-              <p>Chức năng</p>
-              <Radio.Group onChange={(e) => setRadioValue(e.target.value)}>
-                <Radio value={"check_auth_mac"}>Kiểm tra xác thực</Radio>
-                <Radio value={"check_lock_mac"}>
-                  Kiểm tra mac bị khóa trên BRAS
-                </Radio>
-                <Radio value={"clear_in_bras"}>Clear BRAS</Radio>
-              </Radio.Group>
-              <p>Địa chỉ Mac</p>
+            <p>Chức năng</p>
+            <Radio.Group onChange={handleRadioChange}>
+              <Radio value="check_auth_mac">Kiểm tra xác thực</Radio>
+              <Radio value="check_lock_mac">
+                Kiểm tra mac bị khóa trên BRAS
+              </Radio>
+              <Radio value="check_user_bras">Kiểm tra user trên BRAS</Radio>
+              <Radio value="clear_in_bras">Clear BRAS</Radio>
+            </Radio.Group>
+            <p>Địa chỉ Mac</p>
+            <Space size="middle">
+              <Input
+                type="text"
+                placeholder="Nhập chuỗi 12 ký tự "
+                value={macAddress}
+                onChange={handleChange}
+                disabled={macDisabled}
+              />
+            </Space>
+            <div style={{ marginTop: 10 }}>
               <Space size="middle">
                 <Input
                   type="text"
-                  placeholder="Nhập chuỗi 12 ký tự "
-                  value={macAddress}
-                  onChange={handleChange}
+                  placeholder="Nhập username"
+                  value={userBras}
+                  onChange={(e) => setUserBras(e.target.value)}
+                  disabled={userDisabled}
                 />
-                <p> {convertedMacAddress}</p>
               </Space>
-            </Form>
-            <Button onClick={handleRun}>Run</Button>
-          </Card>
-        </div>
-
-        <div className="body-terminal">
-          <Terminal height="65vh" colorMode={ColorMode.Dark}>
-            {lineData}
-          </Terminal>
-          <div style={{ paddingTop: 5 }}>
-            <Button style={{ marginLeft: "94%" }} onClick={handleClear}>
-              {" "}
-              Clear{" "}
+            </div>
+          </Form>
+          <div style={{ marginTop: 10 }}>
+            <Button type="primary" onClick={handleRun}>
+              Run
             </Button>
           </div>
+        </Card>
+      </div>
+
+      <div className="body-terminal">
+        <Terminal height="65vh" colorMode={ColorMode.Dark}>
+          {lineData}
+        </Terminal>
+        <div style={{ paddingTop: 5 }}>
+          <Button style={{ marginLeft: "94%" }} onClick={handleClear}>
+            Clear
+          </Button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
