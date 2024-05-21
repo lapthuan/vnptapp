@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Button, Card, Form, Input, Radio, message } from "antd";
+import { Button, Card, Flex, Form, Input, Radio, message } from "antd";
 import { Space } from "antd";
 import Terminal, { ColorMode, TerminalOutput } from "react-terminal-ui";
 import ServiceBras from "../service/ServiceBras";
 import { useForm } from "antd/es/form/Form";
+import Title from "antd/es/skeleton/Title";
 
 const Bras = () => {
   const [lineData, setLineData] = useState([
@@ -61,7 +62,10 @@ const Bras = () => {
           return;
         }
         data = { command: radioValue, mac: convertedMacAddress };
-      } else if (radioValue === "check_user_bras") {
+      } else if (
+        radioValue === "check_user_bras" ||
+        radioValue === "clear_user_bras"
+      ) {
         if (userBras === "") {
           message.error("Vui lòng nhập username.");
           return;
@@ -99,7 +103,7 @@ const Bras = () => {
       setUserBras("");
       setMacDisabled(false);
       setUserDisabled(true);
-    } else if (value === "check_user_bras") {
+    } else if (value === "check_user_bras" || value === "clear_user_bras") {
       setMacAddress("");
       setMacDisabled(true);
       setUserDisabled(false);
@@ -123,7 +127,7 @@ const Bras = () => {
     <div className="body-home">
       <div className="body-ts">
         <Card
-          title="Thông số"
+          title="Chức năng"
           bordered={true}
           style={{ width: 400, margin: "auto" }}
         >
@@ -135,27 +139,33 @@ const Bras = () => {
             className="form-card"
             form={form}
           >
-            <p>Chức năng</p>
             <Radio.Group onChange={handleRadioChange}>
-              <Radio value="check_auth_mac">Kiểm tra xác thực</Radio>
+              <Radio value="check_auth_mac">Kiểm tra xác thực MAC</Radio>
               <Radio value="check_lock_mac">
                 Kiểm tra mac bị khóa trên BRAS
               </Radio>
               <Radio value="check_user_bras">Kiểm tra user trên BRAS</Radio>
+              <Radio value="clear_user_bras">
+                Clear xác thực user trên BRAS
+              </Radio>
+
               <Radio value="clear_in_bras">Clear BRAS</Radio>
             </Radio.Group>
-            <p>Địa chỉ Mac</p>
+
             <Space size="middle">
-              <Input
-                type="text"
-                placeholder="Nhập chuỗi 12 ký tự "
-                value={macAddress}
-                onChange={handleChange}
-                disabled={macDisabled}
-              />
-            </Space>
-            <div style={{ marginTop: 10 }}>
-              <Space size="middle">
+              <div>
+                <p>Địa chỉ MAC:</p>
+
+                <Input
+                  type="text"
+                  placeholder="Nhập chuỗi 12 ký tự "
+                  value={macAddress}
+                  onChange={handleChange}
+                  disabled={macDisabled}
+                />
+              </div>
+              <div>
+                <p>Username:</p>
                 <Input
                   type="text"
                   placeholder="Nhập username"
@@ -163,8 +173,8 @@ const Bras = () => {
                   onChange={(e) => setUserBras(e.target.value)}
                   disabled={userDisabled}
                 />
-              </Space>
-            </div>
+              </div>
+            </Space>
           </Form>
           <div style={{ marginTop: 10 }}>
             <Button type="primary" onClick={handleRun}>
