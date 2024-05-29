@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { Button, Card, Flex, Form, Input, Radio, message } from "antd";
+import { Button, Card, Form, Input, Radio, message } from "antd";
 import { Space } from "antd";
 import Terminal, { ColorMode, TerminalOutput } from "react-terminal-ui";
 import ServiceBras from "../service/ServiceBras";
 import { useForm } from "antd/es/form/Form";
-import Title from "antd/es/skeleton/Title";
 
 const Bras = () => {
   const [lineData, setLineData] = useState([
@@ -28,10 +27,10 @@ const Bras = () => {
 
   const controlBras = async (data) => {
     const res = await ServiceBras.ControlBras(data);
-    if (res.detail && Array.isArray(res.detail.data)) {
+    if (res.data && Array.isArray(res.data)) {
       const newLine = (
         <TerminalOutput key={lineData.length}>
-          {res.detail.data.map((item, index) => (
+          {res.data.map((item, index) => (
             <div key={index}>{item}</div>
           ))}
         </TerminalOutput>
@@ -62,15 +61,10 @@ const Bras = () => {
           return;
         }
         data = { command: radioValue, mac: convertedMacAddress };
-      } else if (
-        radioValue === "check_user_bras" ||
-        radioValue === "clear_user_bras"
-      ) {
-        if (userBras === "") {
-          message.error("Vui lòng nhập username.");
-          return;
-        }
-        data = { command: radioValue, username_bras: userBras };
+      } else if (radioValue === "check_user_bras") {
+        data = handleCheckUserBras();
+      } else if (radioValue === "clear_user_bras") {
+        data = handleClearUserBras();
       } else {
         data = { command: radioValue };
       }
@@ -79,12 +73,37 @@ const Bras = () => {
         <TerminalOutput key={lineData.length}>...</TerminalOutput>
       );
       setLineData((prevLineData) => prevLineData.concat(newLine));
-
+      console.log(data);
       controlBras(data);
     } catch (error) {
       console.error("Validation failed:", error);
       message.error("Vui lòng điền đầy đủ thông tin.");
     }
+  };
+
+  //Xử lý khi option là check user
+  const handleCheckUserBras = () => {
+    if (userBras === "") {
+      message.error("Vui lòng nhập username.");
+      return;
+    }
+    return { command: "check_user_bras", username_bras: userBras };
+  };
+
+  //Xử lý khi option là clear user
+  const handleClearUserBras = () => {
+    if (userBras === "") {
+      message.error("Vui lòng nhập username.");
+      return;
+    }
+    if (!userBras.includes(",")) {
+      message.error("Các username được ngăn cách nhau bởi dấu ,");
+      return;
+    }
+    const usernames = userBras.split(",").map((user) => user.trim());
+    //Format lại data body
+    const formattedUsernames = `[${usernames.join(",")}]`;
+    return { command: "clear_user_bras", username_bras: formattedUsernames };
   };
 
   const handleChange = (event) => {
