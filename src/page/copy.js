@@ -13,12 +13,11 @@ const Bras = () => {
   const [macAddress, setMacAddress] = useState("");
   const [userBras, setUserBras] = useState("");
   const [convertedMacAddress, setConvertedMacAddress] = useState("");
-  const [fileUserBras, setFileUserBras] = useState("");
   const [radioValue, setRadioValue] = useState(null);
   const [macDisabled, setMacDisabled] = useState(true);
   const [userDisabled, setUserDisabled] = useState(true);
   const [userFileDisabled, setUserFileDisabled] = useState(true);
-  const [onLoading, setOnLoading] = useState(false);
+  const [fileUserBras, setFileUserBras] = useState(""); // Thêm state để lưu danh sách người dùng từ file
   const [form] = useForm();
 
   const handleClick = () => {
@@ -29,40 +28,36 @@ const Bras = () => {
   };
 
   const controlBras = async (data) => {
-    try {
-      const res = await ServiceBras.ControlBras(data);
-      if (res.data && Array.isArray(res.data)) {
-        const newLine = (
-          <TerminalOutput key={lineData.length}>
-            {res.data.map((item, index) => (
-              <div key={index}>{item}</div>
-            ))}
-          </TerminalOutput>
-        );
-        setLineData((prevLineData) => prevLineData.concat(newLine));
-      } else {
-        const newLine = (
-          <TerminalOutput key={lineData.length}>
-            {"Unexpected response format"}
-          </TerminalOutput>
-        );
-        setLineData((prevLineData) => prevLineData.concat(newLine));
-      }
-    } finally {
-      setOnLoading(false); // Kết thúc trạng thái loading sau khi nhận được phản hồi
+    const res = await ServiceBras.ControlBras(data);
+    if (res.data && Array.isArray(res.data)) {
+      const newLine = (
+        <TerminalOutput key={lineData.length}>
+          {res.data.map((item, index) => (
+            <div key={index}>{item}</div>
+          ))}
+        </TerminalOutput>
+      );
+      setLineData((prevLineData) => prevLineData.concat(newLine));
+      console.log(lineData);
+    } else {
+      const newLine = (
+        <TerminalOutput key={lineData.length}>
+          {"Unexpected response format"}
+        </TerminalOutput>
+      );
+      setLineData((prevLineData) => prevLineData.concat(newLine));
     }
   };
 
   const handleRun = async () => {
     try {
       let data = {};
-      setOnLoading(true);
+
       // Kiểm tra xem người dùng đã chọn chức năng hay chưa
       if (radioValue === null && fileUserBras === "") {
         message.error(
           "Vui lòng chọn một chức năng hoặc đọc file danh sách người dùng."
         );
-        setOnLoading(false);
         return;
       }
 
@@ -72,6 +67,12 @@ const Bras = () => {
           .split("\n")
           .map((line) => line.trim())
           .filter((line) => line.length > 0);
+
+        // Kiểm tra các username có hợp lệ không
+        if (usernames.some((username) => /[^a-zA-Z0-9_.,-]/.test(username))) {
+          message.error("File chứa username không hợp lệ.");
+          return;
+        }
 
         // Format lại data body từ danh sách username trong file
         const formattedUsernames = `[${usernames.join(",")}]`;
@@ -89,21 +90,18 @@ const Bras = () => {
         ) {
           if (convertedMacAddress.length !== 17) {
             message.error("Địa chỉ MAC phải đủ 12 ký tự.");
-            setOnLoading(false);
             return;
           }
           data = { command: radioValue, mac: convertedMacAddress };
         } else if (radioValue === "check_user_bras") {
           if (userBras === "") {
             message.error("Vui lòng nhập username.");
-            setOnLoading(false);
             return;
           }
           data = { command: "check_user_bras", username_bras: userBras };
         } else if (radioValue === "clear_user_bras") {
           if (userBras === "") {
             message.error("Vui lòng nhập username.");
-            setOnLoading(false);
             return;
           }
 
@@ -111,7 +109,6 @@ const Bras = () => {
             message.warning(
               "Các username phải được ngăn cách nhau bởi dấu phẩy (,). Vui lòng kiểm tra lại."
             );
-            setOnLoading(false);
             return;
           }
 
@@ -126,7 +123,6 @@ const Bras = () => {
 
           if (usernames.length > 1 && !userBras.includes(",")) {
             message.error("Các username được ngăn cách nhau bởi dấu phẩy (,).");
-            setOnLoading(false);
             return;
           }
 
@@ -149,7 +145,6 @@ const Bras = () => {
     } catch (error) {
       console.error("Validation failed:", error);
       message.error("Vui lòng điền đầy đủ thông tin.");
-      setOnLoading(false);
     }
   };
 
@@ -187,6 +182,7 @@ const Bras = () => {
       setUserDisabled(true);
     }
   };
+
   const convertMacAddress = (mac) => {
     const cleanMac = mac.replace(/[^a-zA-Z0-9]/g, "");
     const formattedMac = cleanMac.match(/.{1,2}/g).join(":");
@@ -244,7 +240,6 @@ const Bras = () => {
             <Space size="middle">
               <div>
                 <p>Địa chỉ MAC:</p>
-
                 <Input
                   type="text"
                   placeholder="Nhập chuỗi 12 ký tự "
@@ -264,35 +259,26 @@ const Bras = () => {
                 />
               </div>
             </Space>
-            <Space size="left">
-              <div>
-                <p>Chọn file chứa danh sách tên người dùng</p>
-                <input
-                  type="file"
-                  accept=".txt"
-                  onChange={handleFileChange}
-                  disabled={userFileDisabled}
-                />
-              </div>
-            </Space>
+            <div>
+              <p>Chọn file chứa danh sách tên người dùng</p>
+              <input
+                type="file"
+                accept=".txt"
+                onChange={handleFileChange}
+                disabled={userFileDisabled}
+              />
+            </div>
           </Form>
           <div style={{ marginTop: 10 }}>
-            <Button type="primary" onClick={handleRun} loading={onLoading}>
-              {onLoading ? "Loading" : "Run"}
+            <Button type="primary" onClick={handleRun}>
+              Run
             </Button>
           </div>
         </Card>
       </div>
 
       <div className="body-terminal">
-        <Terminal height="65vh" colorMode={ColorMode.Dark}>
-          {lineData}
-        </Terminal>
-        <div style={{ paddingTop: 5 }}>
-          <Button style={{ marginLeft: "94%" }} onClick={handleClear}>
-            Clear
-          </Button>
-        </div>
+        <Terminal height="65vh" lineData={lineData} />
       </div>
     </div>
   );
