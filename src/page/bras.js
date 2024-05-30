@@ -62,9 +62,51 @@ const Bras = () => {
         }
         data = { command: radioValue, mac: convertedMacAddress };
       } else if (radioValue === "check_user_bras") {
-        data = handleCheckUserBras();
+        //Xử lý request body khi option là check user
+        if (userBras === "") {
+          message.error("Vui lòng nhập username.");
+          return;
+        }
+        data = { command: "check_user_bras", username_bras: userBras };
       } else if (radioValue === "clear_user_bras") {
-        data = handleClearUserBras();
+        //Xử lý option cho clear user
+        if (userBras === "") {
+          message.error("Vui lòng nhập username.");
+          return;
+        }
+
+        // Kiểm tra các dấu ngăn cách khác ngoài dấu phẩy
+        if (/[;:!$+={}''""\s]/.test(userBras)) {
+          message.warning(
+            "Các username phải được ngăn cách nhau bởi dấu phẩy (,). Vui lòng kiểm tra lại."
+          );
+          return;
+        }
+
+        const usernames = userBras.split(",").map((user) => user.trim());
+
+        // Nếu chỉ có một username, không cần kiểm tra dấu ngăn cách
+        if (usernames.length === 1) {
+          console.log(usernames.length);
+          const formattedUsernames = `[${usernames.join(",")}]`;
+          data = {
+            command: "clear_user_bras",
+            username_bras: formattedUsernames,
+          };
+        }
+
+        // Nếu có nhiều username, kiểm tra xem dấu phẩy có được sử dụng không
+        if (usernames.length > 1 && !userBras.includes(",")) {
+          message.error("Các username được ngăn cách nhau bởi dấu phẩy (,).");
+          return;
+        }
+
+        // Format lại data body
+        const formattedUsernames = `[${usernames.join(",")}]`;
+        data = {
+          command: "clear_user_bras",
+          username_bras: formattedUsernames,
+        };
       } else {
         data = { command: radioValue };
       }
@@ -79,31 +121,6 @@ const Bras = () => {
       console.error("Validation failed:", error);
       message.error("Vui lòng điền đầy đủ thông tin.");
     }
-  };
-
-  //Xử lý khi option là check user
-  const handleCheckUserBras = () => {
-    if (userBras === "") {
-      message.error("Vui lòng nhập username.");
-      return;
-    }
-    return { command: "check_user_bras", username_bras: userBras };
-  };
-
-  //Xử lý khi option là clear user
-  const handleClearUserBras = () => {
-    if (userBras === "") {
-      message.error("Vui lòng nhập username.");
-      return;
-    }
-    if (!userBras.includes(",")) {
-      message.error("Các username được ngăn cách nhau bởi dấu ,");
-      return;
-    }
-    const usernames = userBras.split(",").map((user) => user.trim());
-    //Format lại data body
-    const formattedUsernames = `[${usernames.join(",")}]`;
-    return { command: "clear_user_bras", username_bras: formattedUsernames };
   };
 
   const handleChange = (event) => {
