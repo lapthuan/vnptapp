@@ -32,7 +32,7 @@ const VlanNet = () => {
                         className='form-card'
                     >
 
-                        <Form.Item label="Vlan Net :" name="number" rules={[{ required: true, message: 'Vui lòng nhập Vlan Net!' }]} className='select-item'>
+                        <Form.Item label="Vlan MyTV :" name="number" rules={[{ required: true, message: 'Vui lòng nhập Vlan MyTV!' }]} className='select-item'>
                             <InputNumber type='number' />
                         </Form.Item>
 
@@ -51,8 +51,8 @@ const VlanNet = () => {
                         size={'small'}
                         className='form-card'
                     >
-                        <Form.Item label="Vlan Net :" name="number" rules={[{ required: true, message: 'Vui lòng nhập Vlan Net!' }]} className='select-item'>
-                            <InputNumber type='number'  />
+                        <Form.Item label="Vlan MyTV :" name="number" rules={[{ required: true, message: 'Vui lòng nhập Vlan MyTV!' }]} className='select-item'>
+                            <InputNumber type='number' />
                         </Form.Item>
                         <Space size="middle">
                             <Button type='primary' onClick={handleEdit}>Sửa</Button>
@@ -64,9 +64,9 @@ const VlanNet = () => {
 
             </div>
             <div className='admin-card-2-3'>
-              
-                    <Table pagination={{ pageSize: 5 }} columns={columns} dataSource={dataTable.slice().reverse()} loading={loading} />
-              
+
+                <Table pagination={{ pageSize: 5 }} columns={columns} dataSource={dataTable.slice().reverse()} loading={loading} />
+
             </div>
 
         </div >
